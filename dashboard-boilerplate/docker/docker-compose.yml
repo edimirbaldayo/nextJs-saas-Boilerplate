@@ -1,0 +1,24 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:15-alpine
+    container_name: dashboard-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: dashboard_db
+      POSTGRES_USER: dashboard_user
+      POSTGRES_PASSWORD: dashboard_password
+    ports:
+      - "5432:5432"
+    volumes:
+      - ../Database/postgres:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U dashboard_user -d dashboard_db"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+networks:
+  default:
+    driver: bridge
