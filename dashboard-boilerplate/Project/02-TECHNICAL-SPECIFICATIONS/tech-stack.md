@@ -86,3 +86,43 @@ gic# Technology Stack
 - Monitor for vulnerabilities
 - Database connection encryption
 - Environment variable protection 
+
+## 🎯 **Git Flow Strategy (Recommended)**
+
+### **1. Branch Naming Convention**
+```
+main                    # Production-ready code
+develop                 # Integration branch for features
+feature/feature-name    # New features
+hotfix/bug-description  # Critical bug fixes
+release/version-number  # Release preparation
+```
+
+### **2. Workflow Process**
+
+**For New Features:**
+```bash
+<code_block_to_apply_changes_from>
+```
+
+**For Your Current Situation:**
+Since you're on `install-dependencies`, I'd suggest:
+
+# 1. Start from develop branch
+git checkout develop
+git pull origin develop
+
+# 2. Create feature branch
+git checkout -b feature/your-feature-name
+
+# 3. Work on your feature
+# ... make changes ...
+
+# 4. Commit with clear messages
+git add .
+git commit -m "feat: add user authentication system"
+
+# 5. Push feature branch
+git push origin feature/your-feature-name
+
+# 6. Create Pull Request to develop 
