@@ -16,6 +16,7 @@
     "db:seed": "tsx prisma/seed.ts",
     "setup": "npm run db:generate && npm run db:push",
     "setup:init": "tsx scripts/setup.ts",
+    "setup:labels": "tsx scripts/setup-labels.ts",
     "pr:create": "tsx scripts/create-pr.ts",
     "pr:create:main": "tsx scripts/create-pr.ts --base=main"
   },
