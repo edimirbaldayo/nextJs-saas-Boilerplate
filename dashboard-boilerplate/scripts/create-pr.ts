@@ -127,16 +127,30 @@ function createPR(config: PRConfig): void {
   console.log(`👥 Assignees: ${assignees.join(', ') || 'None'}`);
   
   // Create PR using GitHub CLI
-  const labelsArg = labels.length > 0 ? `--label "${labels.join('","')}"` : '';
-  const assigneesArg = assignees.length > 0 ? `--assignee "${assignees.join('","')}"` : '';
+  const labelsArgs = labels.map(label => `--label "${label}"`).join(' ');
+  const assigneesArg = assignees.length > 0 ? `--assignee ${assignees.join(',')}` : '';
   
-  const command = `gh pr create --title "${title}" --body "${description?.replace(/"/g, '\\"')}" --base ${baseBranch} ${labelsArg} ${assigneesArg}`;
+  const command = `gh pr create --title "${title}" --body "${description?.replace(/"/g, '\\"')}" --base ${baseBranch} ${labelsArgs} ${assigneesArg}`;
   
   try {
     execSync(command, { stdio: 'inherit' });
     console.log('\n✅ Pull Request created successfully!');
   } catch (error) {
     console.error('\n❌ Failed to create Pull Request:', error);
+    
+    // Check if it's a label issue
+    if (labels.length > 0) {
+      console.log('\n🔍 This might be a label issue. Available labels:');
+      try {
+        execSync('gh label list', { stdio: 'inherit' });
+      } catch (labelError) {
+        console.log('Could not fetch labels. You may need to create them:');
+        console.log('gh label create "enhancement" --color "0e8a16"');
+        console.log('gh label create "bug" --color "d93f0b"');
+        console.log('gh label create "size: small" --color "0e8a16"');
+      }
+    }
+    
     console.log('\n💡 Make sure you have GitHub CLI installed and authenticated:');
     console.log('   brew install gh');
     console.log('   gh auth login');
