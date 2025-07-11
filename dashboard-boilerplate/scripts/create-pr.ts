@@ -21,6 +21,10 @@ function getBaseBranch(): string {
   return baseBranch || 'develop';
 }
 
+function shouldReturnToDevelop(): boolean {
+  return !process.argv.includes('--stay-on-branch');
+}
+
 function getCommitMessages(baseBranch: string): string[] {
   try {
     const commits = execSync(`git log --oneline --no-merges ${baseBranch}..HEAD`, { encoding: 'utf8' });
@@ -162,14 +166,14 @@ function createPR(config: PRConfig): void {
   try {
     execSync(command, { stdio: 'inherit' });
     console.log('\n✅ Pull Request created successfully!');
-    if (shouldReturnToDevelop()) {
-      returnToDevelopBranch();
+
     } else {
       console.log('\n🎉 PR created successfully! You\'re still on your feature branch.');
       console.log('   - Review your PR on GitHub');
       console.log('   - Continue working on this feature if needed');
       console.log('   - Or run: git checkout develop');
     }
+
   } catch (error) {
     console.error('\n❌ Failed to create Pull Request:', error);
     
