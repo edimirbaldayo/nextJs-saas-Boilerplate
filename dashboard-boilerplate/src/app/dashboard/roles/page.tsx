@@ -266,28 +266,28 @@ export default function RolesPage() {
   // Modal skeletons
   const CreateRoleModal = () => (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-30">
-      <div className="bg-white rounded-lg shadow-lg p-6 w-full max-w-md">
-        <h2 className="text-xl font-bold mb-4">Create Role</h2>
+      <div className="bg-card rounded-lg shadow-lg p-6 w-full max-w-md border border-border">
+        <h2 className="text-xl font-bold mb-4 text-card-foreground">Create Role</h2>
         <form onSubmit={handleCreateSubmit(onCreateRole)} className="space-y-4">
           <div>
-            <label className="block text-sm font-medium text-gray-700">Name</label>
-            <input {...registerCreate("name")} className="mt-1 block w-full rounded-md border-gray-300 shadow-sm" />
+            <label className="block text-sm font-medium text-muted-foreground">Name</label>
+            <input {...registerCreate("name")} className="mt-1 block w-full rounded-md border border-border shadow-sm bg-background text-card-foreground" />
             {createErrors.name && <p className="text-red-600 text-sm">{createErrors.name.message}</p>}
           </div>
           <div>
-            <label className="block text-sm font-medium text-gray-700">Description</label>
-            <input {...registerCreate("description")} className="mt-1 block w-full rounded-md border-gray-300 shadow-sm" />
+            <label className="block text-sm font-medium text-muted-foreground">Description</label>
+            <input {...registerCreate("description")} className="mt-1 block w-full rounded-md border border-border shadow-sm bg-background text-card-foreground" />
             {createErrors.description && <p className="text-red-600 text-sm">{createErrors.description.message}</p>}
           </div>
           <div className="flex items-center">
             <input type="checkbox" {...registerCreate("isActive")} defaultChecked className="mr-2" />
-            <label className="text-sm">Active</label>
+            <label className="text-sm text-muted-foreground">Active</label>
           </div>
           {formError && <p className="text-red-600 text-sm">{formError}</p>}
           {formSuccess && <p className="text-green-600 text-sm">{formSuccess}</p>}
           <div className="flex justify-end space-x-2 mt-4">
-            <button type="button" className="px-4 py-2 bg-gray-200 rounded" onClick={() => { setShowCreate(false); resetCreate(); }}>Cancel</button>
-            <button type="submit" className="px-4 py-2 bg-blue-600 text-white rounded" disabled={formLoading}>{formLoading ? "Creating..." : "Create"}</button>
+            <button type="button" className="px-4 py-2 bg-muted text-muted-foreground rounded" onClick={() => { setShowCreate(false); resetCreate(); }}>Cancel</button>
+            <button type="submit" className="px-4 py-2 bg-primary text-primary-foreground rounded" disabled={formLoading}>{formLoading ? "Creating..." : "Create"}</button>
           </div>
         </form>
       </div>
@@ -296,28 +296,28 @@ export default function RolesPage() {
 
   const EditRoleModal = ({ roleId }: { roleId: string }) => (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-30">
-      <div className="bg-white rounded-lg shadow-lg p-6 w-full max-w-md">
-        <h2 className="text-xl font-bold mb-4">Edit Role</h2>
+      <div className="bg-card rounded-lg shadow-lg p-6 w-full max-w-md border border-border">
+        <h2 className="text-xl font-bold mb-4 text-card-foreground">Edit Role</h2>
         <form onSubmit={handleEditSubmit(onEditRole)} className="space-y-4">
           <div>
-            <label className="block text-sm font-medium text-gray-700">Name</label>
-            <input {...registerEdit("name")} className="mt-1 block w-full rounded-md border-gray-300 shadow-sm" />
+            <label className="block text-sm font-medium text-muted-foreground">Name</label>
+            <input {...registerEdit("name")} className="mt-1 block w-full rounded-md border border-border shadow-sm bg-background text-card-foreground" />
             {editErrors.name && <p className="text-red-600 text-sm">{editErrors.name.message}</p>}
           </div>
           <div>
-            <label className="block text-sm font-medium text-gray-700">Description</label>
-            <input {...registerEdit("description")} className="mt-1 block w-full rounded-md border-gray-300 shadow-sm" />
+            <label className="block text-sm font-medium text-muted-foreground">Description</label>
+            <input {...registerEdit("description")} className="mt-1 block w-full rounded-md border border-border shadow-sm bg-background text-card-foreground" />
             {editErrors.description && <p className="text-red-600 text-sm">{editErrors.description.message}</p>}
           </div>
           <div className="flex items-center">
             <input type="checkbox" {...registerEdit("isActive")} className="mr-2" />
-            <label className="text-sm">Active</label>
+            <label className="text-sm text-muted-foreground">Active</label>
           </div>
           {formError && <p className="text-red-600 text-sm">{formError}</p>}
           {formSuccess && <p className="text-green-600 text-sm">{formSuccess}</p>}
           <div className="flex justify-end space-x-2 mt-4">
-            <button type="button" className="px-4 py-2 bg-gray-200 rounded" onClick={() => { setShowEdit(null); resetEdit(); }}>Cancel</button>
-            <button type="submit" className="px-4 py-2 bg-blue-600 text-white rounded" disabled={formLoading}>{formLoading ? "Saving..." : "Save"}</button>
+            <button type="button" className="px-4 py-2 bg-muted text-muted-foreground rounded" onClick={() => { setShowEdit(null); resetEdit(); }}>Cancel</button>
+            <button type="submit" className="px-4 py-2 bg-primary text-primary-foreground rounded" disabled={formLoading}>{formLoading ? "Saving..." : "Save"}</button>
           </div>
         </form>
       </div>
@@ -326,13 +326,13 @@ export default function RolesPage() {
 
   const DeleteRoleModal = ({ roleId }: { roleId: string }) => (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-30">
-      <div className="bg-white rounded-lg shadow-lg p-6 w-full max-w-md">
-        <h2 className="text-xl font-bold mb-4">Delete Role</h2>
-        <p>Are you sure you want to delete this role?</p>
+      <div className="bg-card rounded-lg shadow-lg p-6 w-full max-w-md border border-border">
+        <h2 className="text-xl font-bold mb-4 text-card-foreground">Delete Role</h2>
+        <p className="text-muted-foreground">Are you sure you want to delete this role?</p>
         {deleteError && <p className="text-red-600 text-sm mt-2">{deleteError}</p>}
         <div className="flex justify-end space-x-2 mt-4">
-          <button className="px-4 py-2 bg-gray-200 rounded" onClick={() => setShowDelete(null)}>Cancel</button>
-          <button className="px-4 py-2 bg-red-600 text-white rounded" onClick={() => onDeleteRole(roleId)} disabled={deleteLoading}>{deleteLoading ? "Deleting..." : "Delete"}</button>
+          <button className="px-4 py-2 bg-muted text-muted-foreground rounded" onClick={() => setShowDelete(null)}>Cancel</button>
+          <button className="px-4 py-2 bg-destructive text-white rounded" onClick={() => onDeleteRole(roleId)} disabled={deleteLoading}>{deleteLoading ? "Deleting..." : "Delete"}</button>
         </div>
       </div>
     </div>
@@ -341,10 +341,10 @@ export default function RolesPage() {
   // Add ManagePermissionsModal
   const ManagePermissionsModal = ({ roleId }: { roleId: string }) => (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-30">
-      <div className="bg-white rounded-lg shadow-lg p-6 w-full max-w-lg">
-        <h2 className="text-xl font-bold mb-4">Manage Permissions</h2>
+      <div className="bg-card rounded-lg shadow-lg p-6 w-full max-w-lg border border-border">
+        <h2 className="text-xl font-bold mb-4 text-card-foreground">Manage Permissions</h2>
         {permLoading ? (
-          <p>Loading...</p>
+          <p className="text-muted-foreground">Loading...</p>
         ) : permError ? (
           <p className="text-red-600 text-sm">{permError}</p>
         ) : (
@@ -355,7 +355,7 @@ export default function RolesPage() {
             }}
             className="space-y-4"
           >
-            <div className="max-h-64 overflow-y-auto border rounded p-2">
+            <div className="max-h-64 overflow-y-auto border rounded p-2 border-border bg-background">
               {permissions.map((perm) => (
                 <div key={perm.id} className="flex items-center mb-2">
                   <input
@@ -365,13 +365,13 @@ export default function RolesPage() {
                     id={`perm-${perm.id}`}
                     className="mr-2"
                   />
-                  <label htmlFor={`perm-${perm.id}`}>{perm.name} <span className="text-xs text-gray-500">({perm.resource}:{perm.action})</span></label>
+                  <label htmlFor={`perm-${perm.id}`}>{perm.name} <span className="text-xs text-muted-foreground">({perm.resource}:{perm.action})</span></label>
                 </div>
               ))}
             </div>
             <div className="flex justify-end gap-2">
-              <button type="button" onClick={() => setShowPermissions(null)} className="px-4 py-2 bg-gray-200 rounded">Cancel</button>
-              <button type="submit" className="px-4 py-2 bg-blue-600 text-white rounded" disabled={permLoading}>Save</button>
+              <button type="button" onClick={() => setShowPermissions(null)} className="px-4 py-2 bg-muted text-muted-foreground rounded">Cancel</button>
+              <button type="submit" className="px-4 py-2 bg-primary text-primary-foreground rounded" disabled={permLoading}>Save</button>
             </div>
             {permSuccess && <p className="text-green-600 text-sm">{permSuccess}</p>}
           </form>
@@ -384,7 +384,7 @@ export default function RolesPage() {
     <ProtectedRoute>
       <div className="container mx-auto px-6 py-8">
         <h1 className="text-2xl font-bold mb-6">Roles Management</h1>
-        <button className="mb-4 px-4 py-2 bg-blue-600 text-white rounded" onClick={() => setShowCreate(true)}>
+        <button className="mb-4 px-4 py-2 bg-primary text-primary-foreground rounded" onClick={() => setShowCreate(true)}>
           + Create Role
         </button>
         {loading ? (
@@ -392,28 +392,28 @@ export default function RolesPage() {
         ) : error ? (
           <div className="text-red-600">{error}</div>
         ) : (
-          <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
-            <table className="min-w-full divide-y divide-gray-200">
+          <div className="bg-card rounded-lg shadow-sm border border-border p-6">
+            <table className="min-w-full divide-y divide-border">
               <thead>
                 <tr>
-                  <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">Name</th>
-                  <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">Description</th>
-                  <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">Status</th>
-                  <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">Actions</th>
+                  <th className="px-4 py-2 text-left text-xs font-medium text-muted-foreground uppercase">Name</th>
+                  <th className="px-4 py-2 text-left text-xs font-medium text-muted-foreground uppercase">Description</th>
+                  <th className="px-4 py-2 text-left text-xs font-medium text-muted-foreground uppercase">Status</th>
+                  <th className="px-4 py-2 text-left text-xs font-medium text-muted-foreground uppercase">Actions</th>
                 </tr>
               </thead>
-              <tbody className="bg-white divide-y divide-gray-200">
+              <tbody className="bg-card divide-y divide-border">
                 {roles.map((role) => (
                   <tr key={role.id}>
                     <td className="px-4 py-2">{role.name}</td>
                     <td className="px-4 py-2">{role.description || "-"}</td>
                     <td className="px-4 py-2">
-                      <span className={`inline-block px-2 py-1 rounded text-xs font-semibold ${role.isActive ? 'bg-green-100 text-green-800' : 'bg-gray-200 text-gray-600'}`}>{role.isActive ? 'Active' : 'Inactive'}</span>
+                      <span className={`inline-block px-2 py-1 rounded text-xs font-semibold ${role.isActive ? 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200' : 'bg-muted text-muted-foreground'}`}>{role.isActive ? 'Active' : 'Inactive'}</span>
                     </td>
                     <td className="px-4 py-2">
-                      <button className="text-blue-600 hover:underline mr-2" onClick={() => setShowEdit(role.id)}>Edit</button>
-                      <button className="text-red-600 hover:underline" onClick={() => setShowDelete(role.id)}>Delete</button>
-                      <button onClick={() => setShowPermissions(role.id)} className="px-2 py-1 bg-indigo-600 text-white rounded text-xs ml-2">Manage Permissions</button>
+                      <button className="text-primary hover:underline mr-2" onClick={() => setShowEdit(role.id)}>Edit</button>
+                      <button className="text-destructive hover:underline" onClick={() => setShowDelete(role.id)}>Delete</button>
+                      <button onClick={() => setShowPermissions(role.id)} className="px-2 py-1 bg-indigo-600 text-white rounded text-xs ml-2 dark:bg-indigo-700 dark:hover:bg-indigo-800">Manage Permissions</button>
                     </td>
                   </tr>
                 ))}

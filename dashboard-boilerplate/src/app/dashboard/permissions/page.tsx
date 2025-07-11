@@ -186,38 +186,38 @@ export default function PermissionsPage() {
   // Modal skeletons
   const CreatePermissionModal = () => (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-30">
-      <div className="bg-white rounded-lg shadow-lg p-6 w-full max-w-md">
-        <h2 className="text-xl font-bold mb-4">Create Permission</h2>
+      <div className="bg-card rounded-lg shadow-lg p-6 w-full max-w-md border border-border">
+        <h2 className="text-xl font-bold mb-4 text-card-foreground">Create Permission</h2>
         <form onSubmit={handleCreateSubmit(onCreatePermission)} className="space-y-4">
           <div>
-            <label className="block text-sm font-medium text-gray-700">Name</label>
-            <input {...registerCreate("name")} className="mt-1 block w-full rounded-md border-gray-300 shadow-sm" />
+            <label className="block text-sm font-medium text-muted-foreground">Name</label>
+            <input {...registerCreate("name")} className="mt-1 block w-full rounded-md border border-border shadow-sm bg-background text-card-foreground" />
             {createErrors.name && <p className="text-red-600 text-sm">{createErrors.name.message}</p>}
           </div>
           <div>
-            <label className="block text-sm font-medium text-gray-700">Description</label>
-            <input {...registerCreate("description")} className="mt-1 block w-full rounded-md border-gray-300 shadow-sm" />
+            <label className="block text-sm font-medium text-muted-foreground">Description</label>
+            <input {...registerCreate("description")} className="mt-1 block w-full rounded-md border border-border shadow-sm bg-background text-card-foreground" />
             {createErrors.description && <p className="text-red-600 text-sm">{createErrors.description.message}</p>}
           </div>
           <div>
-            <label className="block text-sm font-medium text-gray-700">Resource</label>
-            <input {...registerCreate("resource")} className="mt-1 block w-full rounded-md border-gray-300 shadow-sm" />
+            <label className="block text-sm font-medium text-muted-foreground">Resource</label>
+            <input {...registerCreate("resource")} className="mt-1 block w-full rounded-md border border-border shadow-sm bg-background text-card-foreground" />
             {createErrors.resource && <p className="text-red-600 text-sm">{createErrors.resource.message}</p>}
           </div>
           <div>
-            <label className="block text-sm font-medium text-gray-700">Action</label>
-            <input {...registerCreate("action")} className="mt-1 block w-full rounded-md border-gray-300 shadow-sm" />
+            <label className="block text-sm font-medium text-muted-foreground">Action</label>
+            <input {...registerCreate("action")} className="mt-1 block w-full rounded-md border border-border shadow-sm bg-background text-card-foreground" />
             {createErrors.action && <p className="text-red-600 text-sm">{createErrors.action.message}</p>}
           </div>
           <div className="flex items-center">
             <input type="checkbox" {...registerCreate("isActive")} defaultChecked className="mr-2" />
-            <label className="text-sm">Active</label>
+            <label className="text-sm text-muted-foreground">Active</label>
           </div>
           {formError && <p className="text-red-600 text-sm">{formError}</p>}
           {formSuccess && <p className="text-green-600 text-sm">{formSuccess}</p>}
           <div className="flex justify-end space-x-2 mt-4">
-            <button type="button" className="px-4 py-2 bg-gray-200 rounded" onClick={() => { setShowCreate(false); resetCreate(); }}>Cancel</button>
-            <button type="submit" className="px-4 py-2 bg-blue-600 text-white rounded" disabled={formLoading}>{formLoading ? "Creating..." : "Create"}</button>
+            <button type="button" className="px-4 py-2 bg-muted text-muted-foreground rounded" onClick={() => { setShowCreate(false); resetCreate(); }}>Cancel</button>
+            <button type="submit" className="px-4 py-2 bg-primary text-primary-foreground rounded" disabled={formLoading}>{formLoading ? "Creating..." : "Create"}</button>
           </div>
         </form>
       </div>
@@ -226,38 +226,38 @@ export default function PermissionsPage() {
 
   const EditPermissionModal = ({ permissionId }: { permissionId: string }) => (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-30">
-      <div className="bg-white rounded-lg shadow-lg p-6 w-full max-w-md">
-        <h2 className="text-xl font-bold mb-4">Edit Permission</h2>
+      <div className="bg-card rounded-lg shadow-lg p-6 w-full max-w-md border border-border">
+        <h2 className="text-xl font-bold mb-4 text-card-foreground">Edit Permission</h2>
         <form onSubmit={handleEditSubmit(onEditPermission)} className="space-y-4">
           <div>
-            <label className="block text-sm font-medium text-gray-700">Name</label>
-            <input {...registerEdit("name")} className="mt-1 block w-full rounded-md border-gray-300 shadow-sm" />
+            <label className="block text-sm font-medium text-muted-foreground">Name</label>
+            <input {...registerEdit("name")} className="mt-1 block w-full rounded-md border border-border shadow-sm bg-background text-card-foreground" />
             {editErrors.name && <p className="text-red-600 text-sm">{editErrors.name.message}</p>}
           </div>
           <div>
-            <label className="block text-sm font-medium text-gray-700">Description</label>
-            <input {...registerEdit("description")} className="mt-1 block w-full rounded-md border-gray-300 shadow-sm" />
+            <label className="block text-sm font-medium text-muted-foreground">Description</label>
+            <input {...registerEdit("description")} className="mt-1 block w-full rounded-md border border-border shadow-sm bg-background text-card-foreground" />
             {editErrors.description && <p className="text-red-600 text-sm">{editErrors.description.message}</p>}
           </div>
           <div>
-            <label className="block text-sm font-medium text-gray-700">Resource</label>
-            <input {...registerEdit("resource")} className="mt-1 block w-full rounded-md border-gray-300 shadow-sm" />
+            <label className="block text-sm font-medium text-muted-foreground">Resource</label>
+            <input {...registerEdit("resource")} className="mt-1 block w-full rounded-md border border-border shadow-sm bg-background text-card-foreground" />
             {editErrors.resource && <p className="text-red-600 text-sm">{editErrors.resource.message}</p>}
           </div>
           <div>
-            <label className="block text-sm font-medium text-gray-700">Action</label>
-            <input {...registerEdit("action")} className="mt-1 block w-full rounded-md border-gray-300 shadow-sm" />
+            <label className="block text-sm font-medium text-muted-foreground">Action</label>
+            <input {...registerEdit("action")} className="mt-1 block w-full rounded-md border border-border shadow-sm bg-background text-card-foreground" />
             {editErrors.action && <p className="text-red-600 text-sm">{editErrors.action.message}</p>}
           </div>
           <div className="flex items-center">
             <input type="checkbox" {...registerEdit("isActive")} className="mr-2" />
-            <label className="text-sm">Active</label>
+            <label className="text-sm text-muted-foreground">Active</label>
           </div>
           {formError && <p className="text-red-600 text-sm">{formError}</p>}
           {formSuccess && <p className="text-green-600 text-sm">{formSuccess}</p>}
           <div className="flex justify-end space-x-2 mt-4">
-            <button type="button" className="px-4 py-2 bg-gray-200 rounded" onClick={() => { setShowEdit(null); resetEdit(); }}>Cancel</button>
-            <button type="submit" className="px-4 py-2 bg-blue-600 text-white rounded" disabled={formLoading}>{formLoading ? "Saving..." : "Save"}</button>
+            <button type="button" className="px-4 py-2 bg-muted text-muted-foreground rounded" onClick={() => { setShowEdit(null); resetEdit(); }}>Cancel</button>
+            <button type="submit" className="px-4 py-2 bg-primary text-primary-foreground rounded" disabled={formLoading}>{formLoading ? "Saving..." : "Save"}</button>
           </div>
         </form>
       </div>
@@ -266,13 +266,13 @@ export default function PermissionsPage() {
 
   const DeletePermissionModal = ({ permissionId }: { permissionId: string }) => (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-30">
-      <div className="bg-white rounded-lg shadow-lg p-6 w-full max-w-md">
-        <h2 className="text-xl font-bold mb-4">Delete Permission</h2>
-        <p>Are you sure you want to delete this permission?</p>
+      <div className="bg-card rounded-lg shadow-lg p-6 w-full max-w-md border border-border">
+        <h2 className="text-xl font-bold mb-4 text-card-foreground">Delete Permission</h2>
+        <p className="text-muted-foreground">Are you sure you want to delete this permission?</p>
         {deleteError && <p className="text-red-600 text-sm mt-2">{deleteError}</p>}
         <div className="flex justify-end space-x-2 mt-4">
-          <button className="px-4 py-2 bg-gray-200 rounded" onClick={() => setShowDelete(null)}>Cancel</button>
-          <button className="px-4 py-2 bg-red-600 text-white rounded" onClick={() => onDeletePermission(permissionId)} disabled={deleteLoading}>{deleteLoading ? "Deleting..." : "Delete"}</button>
+          <button className="px-4 py-2 bg-muted text-muted-foreground rounded" onClick={() => setShowDelete(null)}>Cancel</button>
+          <button className="px-4 py-2 bg-destructive text-white rounded" onClick={() => onDeletePermission(permissionId)} disabled={deleteLoading}>{deleteLoading ? "Deleting..." : "Delete"}</button>
         </div>
       </div>
     </div>
@@ -282,7 +282,7 @@ export default function PermissionsPage() {
     <ProtectedRoute>
       <div className="container mx-auto px-6 py-8">
         <h1 className="text-2xl font-bold mb-6">Permissions Management</h1>
-        <button className="mb-4 px-4 py-2 bg-blue-600 text-white rounded" onClick={() => setShowCreate(true)}>
+        <button className="mb-4 px-4 py-2 bg-primary text-primary-foreground rounded" onClick={() => setShowCreate(true)}>
           + Create Permission
         </button>
         {loading ? (
@@ -290,19 +290,19 @@ export default function PermissionsPage() {
         ) : error ? (
           <div className="text-red-600">{error}</div>
         ) : (
-          <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
-            <table className="min-w-full divide-y divide-gray-200">
+          <div className="bg-card rounded-lg shadow-sm border border-border p-6">
+            <table className="min-w-full divide-y divide-border">
               <thead>
                 <tr>
-                  <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">Name</th>
-                  <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">Description</th>
-                  <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">Resource</th>
-                  <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">Action</th>
-                  <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">Status</th>
-                  <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">Actions</th>
+                  <th className="px-4 py-2 text-left text-xs font-medium text-muted-foreground uppercase">Name</th>
+                  <th className="px-4 py-2 text-left text-xs font-medium text-muted-foreground uppercase">Description</th>
+                  <th className="px-4 py-2 text-left text-xs font-medium text-muted-foreground uppercase">Resource</th>
+                  <th className="px-4 py-2 text-left text-xs font-medium text-muted-foreground uppercase">Action</th>
+                  <th className="px-4 py-2 text-left text-xs font-medium text-muted-foreground uppercase">Status</th>
+                  <th className="px-4 py-2 text-left text-xs font-medium text-muted-foreground uppercase">Actions</th>
                 </tr>
               </thead>
-              <tbody className="bg-white divide-y divide-gray-200">
+              <tbody className="bg-card divide-y divide-border">
                 {permissions.map((permission) => (
                   <tr key={permission.id}>
                     <td className="px-4 py-2">{permission.name}</td>
@@ -310,11 +310,11 @@ export default function PermissionsPage() {
                     <td className="px-4 py-2">{permission.resource}</td>
                     <td className="px-4 py-2">{permission.action}</td>
                     <td className="px-4 py-2">
-                      <span className={`inline-block px-2 py-1 rounded text-xs font-semibold ${permission.isActive ? 'bg-green-100 text-green-800' : 'bg-gray-200 text-gray-600'}`}>{permission.isActive ? 'Active' : 'Inactive'}</span>
+                      <span className={`inline-block px-2 py-1 rounded text-xs font-semibold ${permission.isActive ? 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200' : 'bg-muted text-muted-foreground'}`}>{permission.isActive ? 'Active' : 'Inactive'}</span>
                     </td>
                     <td className="px-4 py-2">
-                      <button className="text-blue-600 hover:underline mr-2" onClick={() => setShowEdit(permission.id)}>Edit</button>
-                      <button className="text-red-600 hover:underline" onClick={() => setShowDelete(permission.id)}>Delete</button>
+                      <button className="text-primary hover:underline mr-2" onClick={() => setShowEdit(permission.id)}>Edit</button>
+                      <button className="text-destructive hover:underline" onClick={() => setShowDelete(permission.id)}>Delete</button>
                     </td>
                   </tr>
                 ))}

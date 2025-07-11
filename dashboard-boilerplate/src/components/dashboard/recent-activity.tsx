@@ -104,27 +104,27 @@ export function RecentActivity() {
 
   const getColorClasses = (color: string) => {
     const colorMap = {
-      blue: 'bg-blue-100 text-blue-800',
-      green: 'bg-green-100 text-green-800',
-      purple: 'bg-purple-100 text-purple-800',
-      orange: 'bg-orange-100 text-orange-800',
-      gray: 'bg-gray-100 text-gray-800',
-      red: 'bg-red-100 text-red-800'
+      blue: 'bg-primary/10 text-primary',
+      green: 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200',
+      purple: 'bg-purple-100 text-purple-800 dark:bg-purple-900 dark:text-purple-200',
+      orange: 'bg-orange-100 text-orange-800 dark:bg-orange-900 dark:text-orange-200',
+      gray: 'bg-muted text-muted-foreground',
+      red: 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200'
     }
-    return colorMap[color as keyof typeof colorMap] || 'bg-gray-100 text-gray-800'
+    return colorMap[color as keyof typeof colorMap] || 'bg-muted text-muted-foreground'
   }
 
   if (loading) {
     return (
-      <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
-        <h2 className="text-lg font-semibold text-gray-900 mb-4">Recent Activity</h2>
+      <div className="bg-card rounded-lg shadow-sm border border-border p-6">
+        <h2 className="text-lg font-semibold text-card-foreground mb-4">Recent Activity</h2>
         <div className="space-y-4">
           {[...Array(5)].map((_, i) => (
             <div key={i} className="flex items-center space-x-3 animate-pulse">
-              <div className="w-8 h-8 bg-gray-200 rounded-full"></div>
+              <div className="w-8 h-8 bg-muted rounded-full"></div>
               <div className="flex-1 space-y-2">
-                <div className="h-4 bg-gray-200 rounded w-3/4"></div>
-                <div className="h-3 bg-gray-200 rounded w-1/2"></div>
+                <div className="h-4 bg-muted rounded w-3/4"></div>
+                <div className="h-3 bg-muted rounded w-1/2"></div>
               </div>
             </div>
           ))}
@@ -135,14 +135,14 @@ export function RecentActivity() {
 
   if (error) {
     return (
-      <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
-        <h2 className="text-lg font-semibold text-gray-900 mb-4">Recent Activity</h2>
+      <div className="bg-card rounded-lg shadow-sm border border-border p-6">
+        <h2 className="text-lg font-semibold text-card-foreground mb-4">Recent Activity</h2>
         <div className="text-center py-8">
           <div className="text-red-500 mb-2">⚠️</div>
-          <p className="text-gray-600">{error}</p>
+          <p className="text-muted-foreground">{error}</p>
           <button 
             onClick={() => window.location.reload()}
-            className="mt-2 text-blue-600 hover:text-blue-700 text-sm"
+            className="mt-2 text-primary hover:text-primary/80 text-sm"
           >
             Try again
           </button>
@@ -152,38 +152,38 @@ export function RecentActivity() {
   }
 
   return (
-    <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+    <div className="bg-card rounded-lg shadow-sm border border-border p-6">
       <div className="flex items-center justify-between mb-4">
-        <h2 className="text-lg font-semibold text-gray-900">Recent Activity</h2>
-        <span className="text-sm text-gray-500">{activities.length} activities</span>
+        <h2 className="text-lg font-semibold text-card-foreground">Recent Activity</h2>
+        <span className="text-sm text-muted-foreground">{activities.length} activities</span>
       </div>
       
       {activities.length === 0 ? (
         <div className="text-center py-8">
-          <div className="text-gray-400 mb-2">📝</div>
-          <p className="text-gray-600">No recent activity</p>
+          <div className="text-muted-foreground mb-2">📝</div>
+          <p className="text-muted-foreground">No recent activity</p>
         </div>
       ) : (
         <div className="space-y-4">
           {activities.map((activity) => (
-            <div key={activity.id} className="flex items-start space-x-3 p-3 rounded-lg hover:bg-gray-50 transition-colors">
+            <div key={activity.id} className="flex items-start space-x-3 p-3 rounded-lg hover:bg-muted transition-colors">
               <div className={`flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center text-sm font-medium ${getColorClasses(activity.color)}`}>
                 {activity.icon}
               </div>
               <div className="flex-1 min-w-0">
                 <div className="flex items-center justify-between">
-                  <p className="text-sm font-medium text-gray-900">{activity.title}</p>
-                  <span className="text-xs text-gray-500">{getTimeAgo(activity.timestamp)}</span>
+                  <p className="text-sm font-medium text-card-foreground">{activity.title}</p>
+                  <span className="text-xs text-muted-foreground">{getTimeAgo(activity.timestamp)}</span>
                 </div>
-                <p className="text-sm text-gray-600 mt-1">{activity.description}</p>
+                <p className="text-sm text-muted-foreground mt-1">{activity.description}</p>
               </div>
             </div>
           ))}
         </div>
       )}
       
-      <div className="mt-6 pt-4 border-t border-gray-200">
-        <button className="w-full text-center py-2 px-4 text-sm text-blue-600 hover:text-blue-700 hover:bg-blue-50 rounded-md transition-colors">
+      <div className="mt-6 pt-4 border-t border-border">
+        <button className="w-full text-center py-2 px-4 text-sm text-primary hover:text-primary/80 hover:bg-primary/10 rounded-md transition-colors">
           View all activity
         </button>
       </div>

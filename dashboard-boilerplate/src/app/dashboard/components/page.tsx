@@ -51,9 +51,9 @@ export default function ComponentsPage() {
   }
 
   return (
-    <div className="container mx-auto p-6 space-y-8">
+    <div className="container mx-auto p-6 space-y-8 bg-background">
       <div>
-        <h1 className="text-3xl font-bold mb-2">UI Component Library</h1>
+        <h1 className="text-3xl font-bold mb-2 text-foreground">UI Component Library</h1>
         <p className="text-muted-foreground">
           A showcase of all available UI components for the dashboard.
         </p>
