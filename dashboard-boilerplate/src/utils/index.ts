@@ -85,7 +85,7 @@ export function generateRandomString(length: number = 8): string {
 /**
  * Debounce function
  */
-export function debounce<T extends (...args: any[]) => any>(
+export function debounce<T extends (...args: unknown[]) => unknown>(
   func: T,
   wait: number
 ): (...args: Parameters<T>) => void {
@@ -131,7 +131,7 @@ export function truncateText(text: string, maxLength: number): string {
 /**
  * Check if object is empty
  */
-export function isEmpty(obj: Record<string, any>): boolean {
+export function isEmpty(obj: Record<string, unknown>): boolean {
   return Object.keys(obj).length === 0;
 }
 

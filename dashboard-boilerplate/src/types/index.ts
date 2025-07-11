@@ -24,7 +24,7 @@ export interface UserProfile {
   bio?: string;
   website?: string;
   socialLinks?: Record<string, string>;
-  preferences?: Record<string, any>;
+  preferences?: Record<string, unknown>;
   createdAt: Date;
   updatedAt: Date;
 }
@@ -79,7 +79,7 @@ export interface NewPasswordFormData {
 }
 
 // API Response types
-export interface ApiResponse<T = any> {
+export interface ApiResponse<T = unknown> {
   success: boolean;
   data?: T;
   error?: string;
