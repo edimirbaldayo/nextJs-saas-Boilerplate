@@ -16,7 +16,7 @@ fetchData().then(data => { ... });
 ```
 
 ## Overview
-This document outlines the implementation of dashboard features including the lobby, navigation, and user interface components.
+This document outlines the implementation of dashboard features including the lobby, navigation, user interface components, and UI component library.
 
 ## Dashboard Layout
 
@@ -759,5 +759,337 @@ export function Avatar({ src, alt, size = 'md' }: AvatarProps) {
   }
 
   return (
-    <div className={`${sizeClasses[size]} rounded-full overflow-hidden bg-gray-200`}>
+            <div className={`${sizeClasses[size]} rounded-full overflow-hidden bg-gray-200`}>
       {src
+        ? <Image src={src} alt={alt} width={40} height={40} className="w-full h-full object-cover" />
+        : <div className="w-full h-full bg-gray-300 flex items-center justify-center">
+            <span className="text-gray-600 text-sm font-medium">
+              {alt.charAt(0).toUpperCase()}
+            </span>
+          </div>
+      }
+    </div>
+  )
+}
+```
+
+## UI Component Library
+
+### Overview
+The UI Component Library provides a comprehensive set of reusable components built on shadcn/ui, ensuring consistency, accessibility, and maintainability across the dashboard. The library includes both base shadcn/ui components and custom dashboard-specific components.
+
+### Architecture
+- **Base Framework:** shadcn/ui with Tailwind CSS
+- **Icon Library:** Lucide React
+- **Table Management:** TanStack Table (React Table)
+- **Design System:** Consistent tokens and variants
+- **TypeScript:** Full type safety for all components
+
+### Base Components (shadcn/ui)
+```typescript
+// Available base components
+import {
+  Button,
+  Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle,
+  Input,
+  Label,
+  Badge,
+  Alert, AlertDescription, AlertTitle,
+  Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger,
+  Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow,
+  DropdownMenu, DropdownMenuCheckboxItem, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuRadioGroup, DropdownMenuRadioItem, DropdownMenuSeparator, DropdownMenuShortcut, DropdownMenuSub, DropdownMenuSubContent, DropdownMenuSubTrigger, DropdownMenuTrigger,
+  Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectSeparator, SelectTrigger, SelectValue,
+  Textarea
+} from "@/components/ui"
+```
+
+### Custom Dashboard Components
+
+#### DataTable Component
+A full-featured table component with sorting, filtering, pagination, and column visibility controls.
+
+```typescript
+// src/components/ui/data-table.tsx
+import { DataTable } from "@/components/ui/data-table"
+
+interface User {
+  id: string
+  name: string
+  email: string
+  role: string
+  status: string
+}
+
+const columns: ColumnDef<User>[] = [
+  {
+    accessorKey: "name",
+    header: "Name",
+  },
+  {
+    accessorKey: "email",
+    header: "Email",
+  },
+  {
+    accessorKey: "role",
+    header: "Role",
+  },
+  {
+    accessorKey: "status",
+    header: "Status",
+  },
+]
+
+export function UsersTable({ data }: { data: User[] }) {
+  return (
+    <DataTable
+      columns={columns}
+      data={data}
+      searchKey="name"
+      searchPlaceholder="Search users..."
+    />
+  )
+}
+```
+
+**Features:**
+- Sorting by any column
+- Global search functionality
+- Column visibility toggle
+- Pagination with configurable page sizes
+- Row selection
+- Responsive design
+
+#### StatsCard Component
+Reusable component for displaying metrics and statistics with optional trends.
+
+```typescript
+// src/components/ui/stats-card.tsx
+import { StatsCard } from "@/components/ui/stats-card"
+import { Users, TrendingUp } from "lucide-react"
+
+export function DashboardStats() {
+  return (
+    <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+      <StatsCard
+        title="Total Users"
+        value="1,234"
+        description="Active users this month"
+        icon={Users}
+        trend={{ value: 12, isPositive: true }}
+      />
+      <StatsCard
+        title="System Health"
+        value="98%"
+        description="Uptime this month"
+        icon={TrendingUp}
+        trend={{ value: 2, isPositive: false }}
+      />
+    </div>
+  )
+}
+```
+
+**Features:**
+- Icon support with Lucide React
+- Optional trend indicators
+- Responsive grid layout
+- Consistent styling
+
+#### LoadingSpinner Component
+Consistent loading state component with multiple sizes.
+
+```typescript
+// src/components/ui/loading-spinner.tsx
+import { LoadingSpinner } from "@/components/ui/loading-spinner"
+
+export function LoadingButton() {
+  return (
+    <Button disabled>
+      <LoadingSpinner size="sm" className="mr-2" />
+      Loading...
+    </Button>
+  )
+}
+```
+
+**Features:**
+- Three size variants: sm, md, lg
+- Customizable className
+- Smooth animation
+
+#### EmptyState Component
+Component for displaying empty states with optional call-to-action.
+
+```typescript
+// src/components/ui/empty-state.tsx
+import { EmptyState } from "@/components/ui/empty-state"
+import { Plus } from "lucide-react"
+
+export function NoUsersState() {
+  return (
+    <EmptyState
+      icon={Plus}
+      title="No users found"
+      description="Get started by creating your first user."
+      action={{
+        label: "Create User",
+        onClick: () => handleCreateUser()
+      }}
+    />
+  )
+}
+```
+
+**Features:**
+- Optional icon
+- Customizable title and description
+- Optional call-to-action button
+- Centered layout
+
+### Component Showcase
+A comprehensive demo page showcasing all components at `/dashboard/components`.
+
+```typescript
+// src/app/dashboard/components/page.tsx
+export default function ComponentsPage() {
+  return (
+    <div className="container mx-auto p-6 space-y-8">
+      <div>
+        <h1 className="text-3xl font-bold mb-2">UI Component Library</h1>
+        <p className="text-muted-foreground">
+          A showcase of all available UI components for the dashboard.
+        </p>
+      </div>
+      
+      {/* Interactive component demos */}
+      <Card>
+        <CardHeader>
+          <CardTitle>Buttons</CardTitle>
+          <CardDescription>Different button variants and sizes</CardDescription>
+        </CardHeader>
+        <CardContent>
+          {/* Button examples */}
+        </CardContent>
+      </Card>
+      
+      {/* More component sections... */}
+    </div>
+  )
+}
+```
+
+### Navigation Integration
+Updated sidebar navigation to include the components page and other dashboard features.
+
+```typescript
+// src/components/layout/sidebar.tsx
+const navigation = [
+  { name: 'Dashboard', href: '/dashboard', icon: '🏠' },
+  { name: 'Users', href: '/dashboard/users', icon: '👥' },
+  { name: 'Roles', href: '/dashboard/roles', icon: '🛡️' },
+  { name: 'Permissions', href: '/dashboard/permissions', icon: '🔐' },
+  { name: 'Components', href: '/dashboard/components', icon: '🧩' },
+  { name: 'Profile', href: '/dashboard/profile', icon: '👤' },
+  { name: 'Settings', href: '/dashboard/settings', icon: '⚙️' },
+  { name: 'Analytics', href: '/dashboard/analytics', icon: '📊' },
+]
+```
+
+### Configuration Files
+
+#### components.json
+shadcn/ui configuration file defining the component library setup.
+
+```json
+{
+  "$schema": "https://ui.shadcn.com/schema.json",
+  "style": "default",
+  "rsc": true,
+  "tsx": true,
+  "tailwind": {
+    "config": "tailwind.config.ts",
+    "css": "src/app/globals.css",
+    "baseColor": "gray",
+    "cssVariables": true,
+    "prefix": ""
+  },
+  "aliases": {
+    "components": "@/components",
+    "utils": "@/lib/utils"
+  }
+}
+```
+
+#### utils.ts
+Utility functions for component styling and class merging.
+
+```typescript
+// src/lib/utils.ts
+import { type ClassValue, clsx } from "clsx"
+import { twMerge } from "tailwind-merge"
+
+export function cn(...inputs: ClassValue[]) {
+  return twMerge(clsx(inputs))
+}
+```
+
+### Usage Guidelines
+
+#### Importing Components
+```typescript
+// Import individual components
+import { Button } from "@/components/ui/button"
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+
+// Import from index (recommended)
+import { Button, Card, CardContent, CardHeader, CardTitle } from "@/components/ui"
+```
+
+#### Component Variants
+Most components support multiple variants for different use cases:
+
+```typescript
+// Button variants
+<Button>Default</Button>
+<Button variant="secondary">Secondary</Button>
+<Button variant="outline">Outline</Button>
+<Button variant="ghost">Ghost</Button>
+<Button variant="destructive">Destructive</Button>
+
+// Button sizes
+<Button size="sm">Small</Button>
+<Button size="default">Default</Button>
+<Button size="lg">Large</Button>
+```
+
+#### Responsive Design
+All components are built with responsive design in mind:
+
+```typescript
+// Responsive grid layout
+<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+  <StatsCard title="Metric 1" value="123" />
+  <StatsCard title="Metric 2" value="456" />
+  <StatsCard title="Metric 3" value="789" />
+</div>
+```
+
+### Accessibility Features
+- ARIA labels and descriptions
+- Keyboard navigation support
+- Focus management
+- Screen reader compatibility
+- High contrast support
+
+### Performance Considerations
+- Lazy loading for heavy components
+- Optimized bundle size
+- Tree-shaking support
+- Minimal re-renders
+
+### Future Enhancements
+- Dark mode support
+- Additional component variants
+- Animation library integration
+- Advanced form components
+- Chart and visualization components
