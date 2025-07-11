@@ -21,11 +21,11 @@
   - [ ] Create password reset flow
   - [ ] Add token validation
 
-- [ ] **Dashboard Lobby**
-  - [ ] Design lobby page layout
-  - [ ] Create navigation components
-  - [ ] Add user profile section
-  - [ ] Implement responsive design
+- [x] **Dashboard Lobby**
+  - [x] Design lobby page layout
+  - [x] Create navigation components
+  - [x] Add user profile section
+  - [x] Implement responsive design
 
 ## Medium Priority
 - [ ] **UI Component Library**
