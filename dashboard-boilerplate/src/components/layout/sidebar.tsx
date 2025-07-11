@@ -1,0 +1,53 @@
+'use client'
+
+import { useState } from 'react'
+import Link from 'next/link'
+import { usePathname } from 'next/navigation'
+
+const navigation = [
+  { name: 'Dashboard', href: '/dashboard', icon: '🏠' },
+  { name: 'Profile', href: '/dashboard/profile', icon: '👤' },
+  { name: 'Settings', href: '/dashboard/settings', icon: '⚙️' },
+  { name: 'Analytics', href: '/dashboard/analytics', icon: '📊' },
+]
+
+export function Sidebar() {
+  const [collapsed, setCollapsed] = useState(false)
+  const pathname = usePathname()
+
+  return (
+    <div className={`bg-white shadow-lg ${collapsed ? 'w-16' : 'w-64'} transition-all duration-300`}>
+      <div className="flex items-center justify-between p-4">
+        {!collapsed && <h1 className="text-xl font-bold">Dashboard</h1>}
+        <button
+          onClick={() => setCollapsed(!collapsed)}
+          className="p-2 rounded-lg hover:bg-gray-100"
+        >
+          <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+          </svg>
+        </button>
+      </div>
+      
+      <nav className="mt-8">
+        {navigation.map((item) => {
+          const isActive = pathname === item.href
+          return (
+            <Link
+              key={item.name}
+              href={item.href}
+              className={`flex items-center px-4 py-3 text-sm font-medium transition-colors ${
+                isActive
+                  ? 'bg-blue-50 text-blue-700 border-r-2 border-blue-700'
+                  : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900'
+              }`}
+            >
+              <span className="text-lg mr-3">{item.icon}</span>
+              {!collapsed && item.name}
+            </Link>
+          )
+        })}
+      </nav>
+    </div>
+  )
+} 
