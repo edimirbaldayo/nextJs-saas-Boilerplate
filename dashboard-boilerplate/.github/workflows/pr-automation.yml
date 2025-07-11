@@ -1,0 +1,172 @@
+name: Pull Request Automation
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+  push:
+    branches: [main, develop]
+
+jobs:
+  pr-automation:
+    runs-on: ubuntu-latest
+    if: github.event_name == 'pull_request'
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run linting
+        run: npm run lint
+
+      - name: Type check
+        run: npm run type-check
+
+      - name: Generate PR description
+        id: pr-description
+        run: |
+          # Get commit messages since the last merge
+          COMMITS=$(git log --oneline --no-merges origin/develop..HEAD)
+          
+          # Count different types of changes
+          FEATURES=$(echo "$COMMITS" | grep -c "feat:" || echo "0")
+          FIXES=$(echo "$COMMITS" | grep -c "fix:" || echo "0")
+          DOCS=$(echo "$COMMITS" | grep -c "docs:" || echo "0")
+          STYLE=$(echo "$COMMITS" | grep -c "style:" || echo "0")
+          REFACTOR=$(echo "$COMMITS" | grep -c "refactor:" || echo "0")
+          TESTS=$(echo "$COMMITS" | grep -c "test:" || echo "0")
+          CHORE=$(echo "$COMMITS" | grep -c "chore:" || echo "0")
+          
+          # Generate description
+          DESCRIPTION="## 📋 Changes Summary
+          
+          This PR includes the following changes:
+          
+          - ✨ **Features**: $FEATURES
+          - 🐛 **Bug Fixes**: $FIXES
+          - 📚 **Documentation**: $DOCS
+          - 🎨 **Style Changes**: $STYLE
+          - ♻️ **Refactoring**: $REFACTOR
+          - ✅ **Tests**: $TESTS
+          - 🔧 **Chores**: $CHORE
+          
+          ## 📝 Commit Summary
+          
+          \`\`\`
+          $COMMITS
+          \`\`\`
+          
+          ## 🔍 Review Checklist
+          
+          - [ ] Code follows project conventions
+          - [ ] All tests pass
+          - [ ] Documentation is updated
+          - [ ] No breaking changes (or breaking changes are documented)
+          - [ ] Performance impact considered
+          - [ ] Security implications reviewed"
+          
+          echo "description<<EOF" >> $GITHUB_OUTPUT
+          echo "$DESCRIPTION" >> $GITHUB_OUTPUT
+          echo "EOF" >> $GITHUB_OUTPUT
+
+      - name: Update PR description
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const { data: pr } = await github.rest.pulls.get({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              pull_number: context.issue.number
+            });
+            
+            // Only update if description is empty or very short
+            if (!pr.body || pr.body.length < 100) {
+              await github.rest.pulls.update({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                pull_number: context.issue.number,
+                body: '${{ steps.pr-description.outputs.description }}'
+              });
+            }
+
+  auto-label:
+    runs-on: ubuntu-latest
+    if: github.event_name == 'pull_request'
+    
+    steps:
+      - name: Auto-label PR
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const { data: pr } = await github.rest.pulls.get({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              pull_number: context.issue.number
+            });
+            
+            const labels = [];
+            
+            // Add labels based on commit types
+            const commits = await github.rest.pulls.listCommits({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              pull_number: context.issue.number
+            });
+            
+            const commitMessages = commits.data.map(commit => commit.commit.message);
+            
+            if (commitMessages.some(msg => msg.startsWith('feat:'))) {
+              labels.push('enhancement');
+            }
+            if (commitMessages.some(msg => msg.startsWith('fix:'))) {
+              labels.push('bug');
+            }
+            if (commitMessages.some(msg => msg.startsWith('docs:'))) {
+              labels.push('documentation');
+            }
+            if (commitMessages.some(msg => msg.startsWith('test:'))) {
+              labels.push('testing');
+            }
+            if (commitMessages.some(msg => msg.startsWith('refactor:'))) {
+              labels.push('refactoring');
+            }
+            
+            // Add size label based on changes
+            const { data: files } = await github.rest.pulls.listFiles({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              pull_number: context.issue.number
+            });
+            
+            const totalChanges = files.reduce((sum, file) => sum + file.changes, 0);
+            
+            if (totalChanges <= 10) {
+              labels.push('size: small');
+            } else if (totalChanges <= 50) {
+              labels.push('size: medium');
+            } else {
+              labels.push('size: large');
+            }
+            
+            // Add labels if they don't already exist
+            const existingLabels = pr.labels.map(label => label.name);
+            const newLabels = labels.filter(label => !existingLabels.includes(label));
+            
+            if (newLabels.length > 0) {
+              await github.rest.issues.addLabels({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: context.issue.number,
+                labels: newLabels
+              });
+            } 
