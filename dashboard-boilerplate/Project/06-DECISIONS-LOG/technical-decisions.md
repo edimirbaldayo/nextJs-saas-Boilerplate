@@ -50,7 +50,29 @@
 - Customizable design
 - Modern component patterns
 
-## Decision 6: Form Handling
+## Decision 6: Table Management Library
+**Date**: UI Component Library Implementation
+**Context**: Choosing table library for data display
+**Decision**: Use TanStack Table (React Table)
+**Rationale**:
+- Headless approach (full control over styling)
+- Excellent TypeScript support
+- Advanced features (sorting, filtering, pagination)
+- Active maintenance and community support
+- Integrates well with shadcn/ui components
+
+## Decision 7: Icon Library
+**Date**: UI Component Library Implementation
+**Context**: Choosing icon library for consistency
+**Decision**: Use Lucide React
+**Rationale**:
+- Already included with shadcn/ui
+- Consistent design language
+- Tree-shakable (only import what you use)
+- TypeScript support
+- Active maintenance
+
+## Decision 8: Form Handling
 **Date**: Planning Phase
 **Context**: Form state management
 **Decision**: React Hook Form + Zod
