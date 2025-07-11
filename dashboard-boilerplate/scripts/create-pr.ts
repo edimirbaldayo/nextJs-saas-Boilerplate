@@ -117,6 +117,33 @@ function getPRTitle(): string {
   return title;
 }
 
+function shouldReturnToDevelop(): boolean {
+  return !process.argv.includes('--stay-on-branch');
+}
+
+function returnToDevelopBranch(): void {
+  console.log('\n🔄 Returning to develop branch...');
+  try {
+    // Change to parent directory where .git is located
+    const parentDir = join(process.cwd(), '..');
+    process.chdir(parentDir);
+    execSync('git checkout develop', { stdio: 'inherit' });
+    console.log('✅ Switched to develop branch');
+    // Pull latest changes
+    console.log('📥 Pulling latest changes...');
+    execSync('git pull origin develop', { stdio: 'inherit' });
+    console.log('✅ Develop branch updated');
+    console.log('\n🎉 Workflow complete! You can now:');
+    console.log('   - Review your PR on GitHub');
+    console.log('   - Start working on a new feature');
+    console.log('   - Or continue with other tasks');
+  } catch (checkoutError) {
+    console.log('⚠️  Could not switch to develop branch. You may need to:');
+    console.log('   git checkout develop');
+    console.log('   git pull origin develop');
+  }
+}
+
 function createPR(config: PRConfig): void {
   const { title, description, baseBranch = 'develop', labels = [], assignees = [] } = config;
   
@@ -135,6 +162,14 @@ function createPR(config: PRConfig): void {
   try {
     execSync(command, { stdio: 'inherit' });
     console.log('\n✅ Pull Request created successfully!');
+    if (shouldReturnToDevelop()) {
+      returnToDevelopBranch();
+    } else {
+      console.log('\n🎉 PR created successfully! You\'re still on your feature branch.');
+      console.log('   - Review your PR on GitHub');
+      console.log('   - Continue working on this feature if needed');
+      console.log('   - Or run: git checkout develop');
+    }
   } catch (error) {
     console.error('\n❌ Failed to create Pull Request:', error);
     
