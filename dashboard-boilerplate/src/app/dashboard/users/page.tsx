@@ -29,6 +29,7 @@ interface User {
   name?: string;
   userRoles: { role: { name: string } }[];
   userProfile?: { firstName?: string; lastName?: string };
+  isActive: boolean;
 }
 
 export default function UsersPage() {
@@ -55,6 +56,8 @@ export default function UsersPage() {
   const [assignError, setAssignError] = useState("");
   const [assignSuccess, setAssignSuccess] = useState("");
   const [assignRoleId, setAssignRoleId] = useState("");
+  const [toggleLoading, setToggleLoading] = useState<string | null>(null);
+  const [toggleError, setToggleError] = useState("");
 
   // Fetch roles for the role select
   useEffect(() => {
@@ -270,6 +273,33 @@ export default function UsersPage() {
     }
   };
 
+  const onToggleActive = async (userId: string, isActive: boolean) => {
+    setToggleLoading(userId);
+    setToggleError("");
+    try {
+      const res = await fetch("/api/users", {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ userId, isActive: !isActive }),
+      });
+      if (!res.ok) {
+        const err = await res.json();
+        setToggleError(err.error || "Failed to update user status");
+      } else {
+        // Refetch users
+        setLoading(true);
+        const res = await fetch("/api/users");
+        const data = await res.json();
+        setUsers(data.users);
+        setLoading(false);
+      }
+    } catch {
+      setToggleError("Failed to update user status");
+    } finally {
+      setToggleLoading(null);
+    }
+  };
+
   // Modal skeletons
   const CreateUserModal = () => (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-30">
@@ -413,6 +443,7 @@ export default function UsersPage() {
                   <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">Email</th>
                   <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">Name</th>
                   <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">Role</th>
+                  <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">Status</th>
                   <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">Actions</th>
                 </tr>
               </thead>
@@ -423,6 +454,17 @@ export default function UsersPage() {
                     <td className="px-4 py-2">{user.name || user.userProfile?.firstName || "-"}</td>
                     <td className="px-4 py-2">{user.userRoles.map((ur) => ur.role.name).join(", ")}</td>
                     <td className="px-4 py-2">
+                      <span className={`inline-block px-2 py-1 rounded text-xs font-semibold ${user.isActive ? 'bg-green-100 text-green-800' : 'bg-gray-200 text-gray-600'}`}>{user.isActive ? 'Active' : 'Inactive'}</span>
+                    </td>
+                    <td className="px-4 py-2">
+                      <button
+                        className={`mr-2 px-2 py-1 rounded ${user.isActive ? 'bg-yellow-500 text-white' : 'bg-green-600 text-white'}`}
+                        onClick={() => onToggleActive(user.id, user.isActive)}
+                        disabled={toggleLoading === user.id}
+                      >
+                        {toggleLoading === user.id ? 'Updating...' : user.isActive ? 'Deactivate' : 'Activate'}
+                      </button>
+                      {toggleError && <span className="text-red-600 text-xs ml-2">{toggleError}</span>}
                       <button className="text-blue-600 hover:underline mr-2" onClick={() => setShowEdit(user.id)}>Edit</button>
                       <button className="text-red-600 hover:underline mr-2" onClick={() => setShowDelete(user.id)}>Delete</button>
                       <button className="text-green-600 hover:underline" onClick={() => setShowAssignRole(user.id)}>Assign Role</button>

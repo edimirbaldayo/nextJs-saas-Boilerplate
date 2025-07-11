@@ -20,6 +20,7 @@ model User {
   password      String?   // Hashed password for credentials provider
   createdAt     DateTime  @default(now())
   updatedAt     DateTime  @updatedAt
+  isActive      Boolean   @default(true)
 
   // Relations
   accounts      Account[]
