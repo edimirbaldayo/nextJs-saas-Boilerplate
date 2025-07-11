@@ -1,5 +1,20 @@
 # Dashboard Features Implementation
 
+## Coding Standards
+
+### Async/Await Usage
+- Always use `async/await` for asynchronous code instead of promise methods like `.then`, `.catch`, or `.finally`.
+- This rule applies to all new code and when refactoring existing code.
+- Example:
+
+```ts
+// Good
+const data = await fetchData();
+
+// Bad
+fetchData().then(data => { ... });
+```
+
 ## Overview
 This document outlines the implementation of dashboard features including the lobby, navigation, and user interface components.
 
