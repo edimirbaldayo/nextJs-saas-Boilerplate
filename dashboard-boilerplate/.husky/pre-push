@@ -1,0 +1,39 @@
+#!/usr/bin/env sh
+. "$(dirname -- "$0")/_/husky.sh"
+
+echo "🔍 Running pre-push checks..."
+
+# Run type checking
+echo "📝 Running TypeScript type check..."
+npm run type-check
+if [ $? -ne 0 ]; then
+  echo "❌ TypeScript type check failed. Please fix the errors before pushing."
+  exit 1
+fi
+
+# Run linting
+echo "🔧 Running ESLint..."
+npm run lint
+if [ $? -ne 0 ]; then
+  echo "❌ ESLint check failed. Please fix the linting errors before pushing."
+  exit 1
+fi
+
+# Check if we're on a feature branch
+CURRENT_BRANCH=$(git branch --show-current)
+if [[ "$CURRENT_BRANCH" == feature/* || "$CURRENT_BRANCH" == fix/* || "$CURRENT_BRANCH" == hotfix/* ]]; then
+  echo "🌿 Feature branch detected: $CURRENT_BRANCH"
+  
+  # Check if PR already exists
+  if command -v gh &> /dev/null; then
+    PR_EXISTS=$(gh pr list --head "$CURRENT_BRANCH" --json number --jq 'length')
+    if [ "$PR_EXISTS" -eq 0 ]; then
+      echo "📋 No PR found for this branch. Consider creating one with:"
+      echo "   npm run pr:create"
+    else
+      echo "✅ PR already exists for this branch"
+    fi
+  fi
+fi
+
+echo "✅ Pre-push checks passed!" 
