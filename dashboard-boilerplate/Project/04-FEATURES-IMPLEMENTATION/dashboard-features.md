@@ -403,6 +403,35 @@ export function ProfileForm() {
 - **UI:** Table of users with actions for Edit, Delete, Assign Role, and Activate/Deactivate. Each action is implemented with a modal form or toggle, validation (zod/react-hook-form), API integration, and user feedback for errors and success.
 - **Access:** Only visible and accessible to users with the admin role.
 
+## Roles & Permissions Management (Admin Only)
+
+- **Feature:** Admin users can manage roles and permissions (create, update, delete, assign permissions to roles) from the dashboard.
+- **Location:**
+  - Roles: `src/app/dashboard/roles/page.tsx`, API: `src/app/api/roles/route.ts`
+  - Permissions: `src/app/dashboard/permissions/page.tsx`, API: `src/app/api/permissions/route.ts`
+  - Role-permission assignment: `src/app/api/roles/[roleId]/permissions/route.ts`
+- **UI:** Table of roles and permissions with actions for Edit, Delete, Assign Permissions, and Activate/Deactivate. Each action is implemented with a modal form or toggle, validation (zod/react-hook-form), API integration, and user feedback for errors and success.
+- **Access:** Only visible and accessible to users with the admin role.
+
+### Role-Permission Assignment
+
+- **Feature:** Admins can assign or unassign permissions to roles directly from the dashboard.
+- **UI Workflow:**
+  - Each role row has a "Manage Permissions" button.
+  - Clicking opens a modal listing all permissions with checkboxes for those assigned to the role.
+  - Admins can check/uncheck permissions and save changes.
+  - The UI provides loading, error, and success feedback.
+- **API Endpoints:**
+  - `POST /api/roles/[roleId]/permissions` — Assign one or more permissions to a role. Expects `{ permissionIds: string[] }` in the body.
+  - `DELETE /api/roles/[roleId]/permissions` — Unassign one or more permissions from a role. Expects `{ permissionIds: string[] }` in the body.
+- **Backend Logic:**
+  - Endpoints are admin-only (RBAC enforced).
+  - Uses Prisma to update the `RolePermission` table.
+- **Frontend Logic:**
+  - See `src/app/dashboard/roles/page.tsx` for modal and assignment logic.
+  - Fetches all permissions and the current role's assigned permissions.
+  - Submits changes via the above API endpoints.
+
 ## Responsive Design
 
 ### Mobile Navigation
