@@ -107,39 +107,39 @@ export function StatsOverview() {
 
   const getColorClasses = (color: string, changeType: string) => {
     const colorMap = {
-      blue: 'bg-blue-50 border-blue-200',
-      green: 'bg-green-50 border-green-200',
-      emerald: 'bg-emerald-50 border-emerald-200',
-      yellow: 'bg-yellow-50 border-yellow-200',
-      purple: 'bg-purple-50 border-purple-200',
-      indigo: 'bg-indigo-50 border-indigo-200'
+      blue: 'bg-muted border-border',
+      green: 'bg-muted border-border',
+      emerald: 'bg-muted border-border',
+      yellow: 'bg-muted border-border',
+      purple: 'bg-muted border-border',
+      indigo: 'bg-muted border-border'
     }
 
     const changeColorMap = {
       positive: 'text-green-600',
       negative: 'text-red-600',
-      neutral: 'text-gray-600'
+      neutral: 'text-muted-foreground'
     }
 
     return {
-      bg: colorMap[color as keyof typeof colorMap] || 'bg-gray-50 border-gray-200',
-      change: changeColorMap[changeType as keyof typeof changeColorMap] || 'text-gray-600'
+      bg: colorMap[color as keyof typeof colorMap] || 'bg-muted border-border',
+      change: changeColorMap[changeType as keyof typeof changeColorMap] || 'text-muted-foreground'
     }
   }
 
   if (loading) {
     return (
-      <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
-        <h2 className="text-lg font-semibold text-gray-900 mb-4">Overview</h2>
+      <div className="bg-card rounded-lg shadow-sm border border-border p-6">
+        <h2 className="text-lg font-semibold text-card-foreground mb-4">Overview</h2>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
           {[...Array(4)].map((_, i) => (
-            <div key={i} className="p-4 border border-gray-200 rounded-lg animate-pulse">
+            <div key={i} className="p-4 border border-border rounded-lg animate-pulse">
               <div className="flex items-center justify-between">
                 <div className="space-y-2">
-                  <div className="h-4 bg-gray-200 rounded w-20"></div>
-                  <div className="h-8 bg-gray-200 rounded w-16"></div>
+                  <div className="h-4 bg-muted rounded w-20"></div>
+                  <div className="h-8 bg-muted rounded w-16"></div>
                 </div>
-                <div className="w-8 h-8 bg-gray-200 rounded"></div>
+                <div className="w-8 h-8 bg-muted rounded"></div>
               </div>
             </div>
           ))}
@@ -150,14 +150,14 @@ export function StatsOverview() {
 
   if (error) {
     return (
-      <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
-        <h2 className="text-lg font-semibold text-gray-900 mb-4">Overview</h2>
+      <div className="bg-card rounded-lg shadow-sm border border-border p-6">
+        <h2 className="text-lg font-semibold text-card-foreground mb-4">Overview</h2>
         <div className="text-center py-8">
           <div className="text-red-500 mb-2">⚠️</div>
-          <p className="text-gray-600">{error}</p>
+          <p className="text-muted-foreground">{error}</p>
           <button 
             onClick={() => window.location.reload()}
-            className="mt-2 text-blue-600 hover:text-blue-700 text-sm"
+            className="mt-2 text-primary hover:text-primary/80 text-sm"
           >
             Try again
           </button>
@@ -167,31 +167,29 @@ export function StatsOverview() {
   }
 
   return (
-    <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+    <div className="bg-card rounded-lg shadow-sm border border-border p-6">
       <div className="flex items-center justify-between mb-4">
-        <h2 className="text-lg font-semibold text-gray-900">Overview</h2>
-        <span className="text-sm text-gray-500">Last updated: {new Date().toLocaleTimeString()}</span>
+        <h2 className="text-lg font-semibold text-card-foreground">Overview</h2>
+        <span className="text-sm text-muted-foreground">Last updated: {new Date().toLocaleTimeString()}</span>
       </div>
       
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
         {stats.map((stat) => {
           const colors = getColorClasses(stat.color, stat.changeType)
           const StatContent = (
-            <div className={`p-4 border rounded-lg transition-all duration-200 hover:shadow-md ${colors.bg} ${stat.href ? 'cursor-pointer hover:scale-105' : ''}`}>
+            <div className={`p-4 border rounded-lg transition-all duration-200 hover:shadow-md bg-muted border-border ${stat.href ? 'cursor-pointer hover:scale-105' : ''}`}>
               <div className="flex items-center justify-between">
                 <div className="flex-1">
-                  <p className="text-sm font-medium text-gray-600">{stat.name}</p>
-                  <p className="text-2xl font-bold text-gray-900">{stat.value}</p>
+                  <p className="text-sm font-medium text-muted-foreground">{stat.name}</p>
+                  <p className="text-2xl font-bold text-card-foreground">{stat.value}</p>
                 </div>
-                <div className="flex-shrink-0 w-10 h-10 bg-white bg-opacity-80 rounded-lg flex items-center justify-center">
+                <div className="flex-shrink-0 w-10 h-10 bg-card bg-opacity-80 rounded-lg flex items-center justify-center">
                   <span className="text-xl">{stat.icon}</span>
                 </div>
               </div>
               <div className="mt-2 flex items-center">
-                <span className={`text-sm font-medium ${colors.change}`}>
-                  {stat.change}
-                </span>
-                <span className="text-sm text-gray-500 ml-1">from last month</span>
+                <span className={`text-sm font-medium ${colors.change}`}>{stat.change}</span>
+                <span className="text-sm text-muted-foreground ml-1">from last month</span>
               </div>
             </div>
           )
@@ -201,9 +199,7 @@ export function StatsOverview() {
               {StatContent}
             </a>
           ) : (
-            <div key={stat.name}>
-              {StatContent}
-            </div>
+            <div key={stat.name}>{StatContent}</div>
           )
         })}
       </div>

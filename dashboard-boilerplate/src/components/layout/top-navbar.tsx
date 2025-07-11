@@ -2,6 +2,7 @@
 
 import { useAuth } from '@/hooks/use-auth'
 import { useState } from 'react'
+import { ThemeToggle } from "@/components/ui/theme-toggle"
 
 export function TopNavbar() {
   const { user, signOut } = useAuth()
@@ -19,6 +20,7 @@ export function TopNavbar() {
         </div>
         
         <div className="flex items-center space-x-4">
+          <ThemeToggle />
           <div className="relative">
             <button
               onClick={() => setIsMenuOpen(!isMenuOpen)}
