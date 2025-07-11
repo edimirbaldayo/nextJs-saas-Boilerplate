@@ -110,6 +110,11 @@ npm run pr:create -- --base=main
 
 # Create PR with both custom title and base
 npm run pr:create -- --title="feat: add dashboard" --base=main
+
+# Create PR and stay on feature branch (don't switch to develop)
+npm run pr:create:stay
+# or
+npm run pr:create -- --stay-on-branch
 ```
 
 #### What the Script Does
@@ -119,6 +124,7 @@ npm run pr:create -- --title="feat: add dashboard" --base=main
 3. **Generates Description**: Creates a comprehensive PR description
 4. **Adds Labels**: Automatically adds relevant labels
 5. **Creates PR**: Uses GitHub CLI to create the pull request
+6. **Returns to Develop**: Automatically switches back to develop branch and pulls latest changes
 
 #### Example Output
 
@@ -137,6 +143,16 @@ Creating pull request for feature/user-auth into develop in your-repo/your-proje
 
 https://github.com/your-repo/your-project/pull/123
 ✅ Pull Request created successfully!
+
+🔄 Returning to develop branch...
+✅ Switched to develop branch
+📥 Pulling latest changes...
+✅ Develop branch updated
+
+🎉 Workflow complete! You can now:
+   - Review your PR on GitHub
+   - Start working on a new feature
+   - Or continue with other tasks
 ```
 
 #### Generated PR Description
@@ -705,7 +721,8 @@ npm run pr:create
 
 | Command | Purpose |
 |---------|---------|
-| `npm run pr:create` | Create PR with auto-generated description |
+| `npm run pr:create` | Create PR and return to develop branch |
+| `npm run pr:create:stay` | Create PR and stay on feature branch |
 | `npm run pr:create:main` | Create PR against main branch |
 | `npm run type-check` | Check TypeScript types |
 | `npm run lint:fix` | Fix linting errors |
