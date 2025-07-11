@@ -116,19 +116,24 @@ export async function DELETE(req: NextRequest) {
   }
 }
 
-// PATCH: Assign role (activate/deactivate not supported in schema)
+// PATCH: Assign role or activate/deactivate user
 export async function PATCH(req: NextRequest) {
   const session = await getServerSession(authOptions);
   if (!session?.user?.id || !(await isAdmin(session.user.id))) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 403 });
   }
   const body = await req.json();
-  const { userId, roleId } = body;
+  const { userId, roleId, isActive } = body;
   if (!userId) {
     return NextResponse.json({ error: 'Missing userId' }, { status: 400 });
   }
   try {
-    // Only assign role
+    let user;
+    // Toggle isActive if provided
+    if (typeof isActive === 'boolean') {
+      user = await prisma.user.update({ where: { id: userId }, data: { isActive } });
+    }
+    // Assign role if provided
     if (roleId) {
       await prisma.userRole.upsert({
         where: { userId_roleId: { userId, roleId } },
@@ -136,7 +141,7 @@ export async function PATCH(req: NextRequest) {
         create: { userId, roleId },
       });
     }
-    const user = await prisma.user.findUnique({
+    user = await prisma.user.findUnique({
       where: { id: userId },
       include: { userRoles: { include: { role: true } }, userProfile: true },
     });

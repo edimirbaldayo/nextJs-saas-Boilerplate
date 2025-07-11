@@ -400,7 +400,7 @@ export function ProfileForm() {
 
 - **Feature:** Admin users can manage all users (create, update, delete, assign role) from the dashboard.
 - **Location:** `src/app/dashboard/users/page.tsx`
-- **UI:** Table of users with actions for Edit, Delete, and Assign Role. Each action is implemented with a modal form, validation (zod/react-hook-form), API integration, and user feedback for errors and success.
+- **UI:** Table of users with actions for Edit, Delete, Assign Role, and Activate/Deactivate. Each action is implemented with a modal form or toggle, validation (zod/react-hook-form), API integration, and user feedback for errors and success.
 - **Access:** Only visible and accessible to users with the admin role.
 
 ## Responsive Design
