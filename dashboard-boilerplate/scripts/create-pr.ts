@@ -127,10 +127,10 @@ function createPR(config: PRConfig): void {
   console.log(`👥 Assignees: ${assignees.join(', ') || 'None'}`);
   
   // Create PR using GitHub CLI
-  const labelsArg = labels.length > 0 ? `--label ${labels.join(',')}` : '';
+  const labelsArgs = labels.map(label => `--label "${label}"`).join(' ');
   const assigneesArg = assignees.length > 0 ? `--assignee ${assignees.join(',')}` : '';
   
-  const command = `gh pr create --title "${title}" --body "${description?.replace(/"/g, '\\"')}" --base ${baseBranch} ${labelsArg} ${assigneesArg}`;
+  const command = `gh pr create --title "${title}" --body "${description?.replace(/"/g, '\\"')}" --base ${baseBranch} ${labelsArgs} ${assigneesArg}`;
   
   try {
     execSync(command, { stdio: 'inherit' });
