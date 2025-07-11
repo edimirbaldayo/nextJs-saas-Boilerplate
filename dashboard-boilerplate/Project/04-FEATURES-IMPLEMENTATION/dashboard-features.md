@@ -396,6 +396,42 @@ export function ProfileForm() {
 }
 ```
 
+## Password Recovery
+
+### Overview
+The password recovery system allows users to reset their password if they forget it. The system includes:
+- Forgot password page for requesting a reset
+- Reset password page for setting a new password
+- Secure token-based reset mechanism
+- Email integration (placeholder for production)
+
+### Frontend Pages
+- **Forgot Password:** `src/app/(auth)/forgot-password/page.tsx`
+- **Reset Password:** `src/app/(auth)/reset-password/page.tsx`
+
+### API Endpoints
+- **Forgot Password:** `POST /api/auth/forgot-password` — Generate reset token and send email
+- **Reset Password:** `POST /api/auth/reset-password` — Reset password using valid token
+
+### Security Features
+- Secure random token generation using crypto
+- 1-hour token expiry
+- Password hashing with bcrypt
+- No user enumeration (same response for existing/non-existing emails)
+- Token invalidation after use
+- Input validation with Zod
+
+### Database Schema
+The User model includes password reset fields:
+```prisma
+model User {
+  // ... other fields
+  resetToken    String?   // For password reset functionality
+  resetTokenExpiry DateTime? // Expiry time for reset token
+  // ... other fields
+}
+```
+
 ## Users Management (Admin Only)
 
 - **Feature:** Admin users can manage all users (create, update, delete, assign role) from the dashboard.

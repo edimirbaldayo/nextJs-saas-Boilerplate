@@ -18,6 +18,8 @@ model User {
   name          String?
   image         String?
   password      String?   // Hashed password for credentials provider
+  resetToken    String?   // For password reset functionality
+  resetTokenExpiry DateTime? // Expiry time for reset token
   createdAt     DateTime  @default(now())
   updatedAt     DateTime  @updatedAt
   isActive      Boolean   @default(true)

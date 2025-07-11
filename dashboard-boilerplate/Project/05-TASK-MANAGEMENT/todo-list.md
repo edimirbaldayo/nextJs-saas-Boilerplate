@@ -15,11 +15,11 @@
   - [ ] Set up session management
   - [ ] Add route protection middleware
 
-- [ ] **Password Recovery**
-  - [ ] Design recovery page UI
-  - [ ] Implement email sending functionality
-  - [ ] Create password reset flow
-  - [ ] Add token validation
+- [x] **Password Recovery**
+  - [x] Design recovery page UI
+  - [x] Implement email sending functionality (placeholder)
+  - [x] Create password reset flow
+  - [x] Add token validation
 
 - [ ] **Dashboard Lobby**
   - [ ] Design lobby page layout
