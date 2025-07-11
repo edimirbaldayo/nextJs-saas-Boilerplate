@@ -1,5 +1,20 @@
 # Dashboard Features Implementation
 
+## Coding Standards
+
+### Async/Await Usage
+- Always use `async/await` for asynchronous code instead of promise methods like `.then`, `.catch`, or `.finally`.
+- This rule applies to all new code and when refactoring existing code.
+- Example:
+
+```ts
+// Good
+const data = await fetchData();
+
+// Bad
+fetchData().then(data => { ... });
+```
+
 ## Overview
 This document outlines the implementation of dashboard features including the lobby, navigation, and user interface components.
 
@@ -380,6 +395,13 @@ export function ProfileForm() {
   )
 }
 ```
+
+## Users Management (Admin Only)
+
+- **Feature:** Admin users can manage all users (create, update, delete, assign role) from the dashboard.
+- **Location:** `src/app/dashboard/users/page.tsx`
+- **UI:** Table of users with actions for Edit, Delete, and Assign Role. Each action is implemented with a modal form, validation (zod/react-hook-form), API integration, and user feedback for errors and success.
+- **Access:** Only visible and accessible to users with the admin role.
 
 ## Responsive Design
 
