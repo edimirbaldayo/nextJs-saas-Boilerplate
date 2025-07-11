@@ -66,7 +66,7 @@ export function WelcomeCard() {
       <div className="flex items-center justify-between">
         <div className="flex-1">
           <div className="flex items-center space-x-4">
-            <div className="w-12 h-12 bg-white bg-opacity-20 rounded-full flex items-center justify-center">
+            <div className="w-12 h-12 bg-card/80 rounded-full flex items-center justify-center">
               <span className="text-xl font-bold">
                 {user?.name?.charAt(0)?.toUpperCase() || 'U'}
               </span>
@@ -85,27 +85,27 @@ export function WelcomeCard() {
             <div className="mt-4 grid grid-cols-2 md:grid-cols-4 gap-4">
               <div className="text-center">
                 <div className="text-2xl font-bold">{stats.totalUsers}</div>
-                <div className="text-sm text-blue-100">Users</div>
+                <div className="text-sm text-muted-foreground">Users</div>
               </div>
               <div className="text-center">
                 <div className="text-2xl font-bold">{stats.totalRoles}</div>
-                <div className="text-sm text-blue-100">Roles</div>
+                <div className="text-sm text-muted-foreground">Roles</div>
               </div>
               <div className="text-center">
                 <div className="text-2xl font-bold">{stats.totalPermissions}</div>
-                <div className="text-sm text-blue-100">Permissions</div>
+                <div className="text-sm text-muted-foreground">Permissions</div>
               </div>
               <div className="text-center">
                 <div className="text-2xl font-bold">{stats.recentActivity}</div>
-                <div className="text-sm text-blue-100">Recent Activity</div>
+                <div className="text-sm text-muted-foreground">Recent Activity</div>
               </div>
             </div>
           )}
         </div>
         
         <div className="hidden lg:block text-right">
-          <div className="bg-white bg-opacity-10 rounded-lg p-3">
-            <p className="text-sm text-blue-100">Last login</p>
+          <div className="bg-card/60 rounded-lg p-3">
+            <p className="text-sm text-muted-foreground">Last login</p>
             <p className="text-sm font-medium">{lastLogin}</p>
           </div>
         </div>
