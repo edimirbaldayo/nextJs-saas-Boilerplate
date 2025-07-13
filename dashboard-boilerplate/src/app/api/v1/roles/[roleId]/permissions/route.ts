@@ -15,6 +15,38 @@ async function isAdmin(session: any) {
   return user?.userRoles.some((ur: { role: { name: string } }) => ur.role.name === 'admin');
 }
 
+// GET: Get all permissions and role's assigned permissions
+export async function GET(req: NextRequest, { params }: { params: { roleId: string } }) {
+  const session = await getServerSession(authOptions);
+  if (!(await isAdmin(session))) {
+    return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
+  }
+  const { roleId } = params;
+  
+  try {
+    // Get all permissions
+    const allPermissions = await prisma.permission.findMany({
+      where: { isActive: true },
+      orderBy: [{ resource: 'asc' }, { action: 'asc' }],
+    });
+
+    // Get role's assigned permissions
+    const rolePermissions = await prisma.rolePermission.findMany({
+      where: { roleId },
+      include: { permission: true },
+    });
+
+    const assignedPermissionIds = rolePermissions.map(rp => rp.permissionId);
+
+    return NextResponse.json({
+      allPermissions,
+      assignedPermissionIds,
+    });
+  } catch (error) {
+    return NextResponse.json({ error: 'Failed to fetch permissions', details: error }, { status: 500 });
+  }
+}
+
 // POST: Assign permission(s) to a role
 export async function POST(req: NextRequest, { params }: { params: { roleId: string } }) {
   const session = await getServerSession(authOptions);

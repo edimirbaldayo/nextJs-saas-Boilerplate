@@ -229,6 +229,7 @@ async function main() {
       name: 'Admin User',
       password: hashedPassword,
       emailVerified: new Date(),
+      isActive: true,
       userProfile: {
         create: {
           firstName: 'Admin',
@@ -267,6 +268,7 @@ async function main() {
       name: 'Regular User',
       password: userPassword,
       emailVerified: new Date(),
+      isActive: true,
       userProfile: {
         create: {
           firstName: 'Regular',
