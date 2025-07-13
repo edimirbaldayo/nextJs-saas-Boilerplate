@@ -308,9 +308,9 @@ export function StatsOverview() {
         
         // Fetch real data from APIs
         const [usersRes, rolesRes, permissionsRes] = await Promise.all([
-          fetch('/api/users?count=true'),
-          fetch('/api/roles?count=true'),
-          fetch('/api/permissions?count=true'),
+          fetch('/api/v1/users?count=true'),
+          fetch('/api/v1/roles?count=true'),
+          fetch('/api/v1/permissions?count=true'),
         ])
 
         const userCount = usersRes.ok ? await usersRes.json() : { count: 0 }
@@ -528,7 +528,7 @@ export function ProfileForm() {
   const onSubmit = async (data: ProfileFormData) => {
     setIsLoading(true)
     try {
-      const response = await fetch('/api/user/profile', {
+      const response = await fetch('/api/v1/user/profile', {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(data)
@@ -604,8 +604,8 @@ The password recovery system allows users to reset their password if they forget
 - **Reset Password:** `src/app/(auth)/reset-password/page.tsx`
 
 ### API Endpoints
-- **Forgot Password:** `POST /api/auth/forgot-password` — Generate reset token and send email
-- **Reset Password:** `POST /api/auth/reset-password` — Reset password using valid token
+- **Forgot Password:** `POST /api/v1/auth/forgot-password` — Generate reset token and send email
+- **Reset Password:** `POST /api/v1/auth/reset-password` — Reset password using valid token
 
 ### Security Features
 - Secure random token generation using crypto
@@ -637,9 +637,9 @@ model User {
 
 - **Feature:** Admin users can manage roles and permissions (create, update, delete, assign permissions to roles) from the dashboard.
 - **Location:**
-  - Roles: `src/app/dashboard/roles/page.tsx`, API: `src/app/api/roles/route.ts`
-  - Permissions: `src/app/dashboard/permissions/page.tsx`, API: `src/app/api/permissions/route.ts`
-  - Role-permission assignment: `src/app/api/roles/[roleId]/permissions/route.ts`
+  - Roles: `src/app/dashboard/roles/page.tsx`, API: `src/app/api/v1/roles/route.ts`
+  - Permissions: `src/app/dashboard/permissions/page.tsx`, API: `src/app/api/v1/permissions/route.ts`
+  - Role-permission assignment: `src/app/api/v1/roles/[roleId]/permissions/route.ts`
 - **UI:** Table of roles and permissions with actions for Edit, Delete, Assign Permissions, and Activate/Deactivate. Each action is implemented with a modal form or toggle, validation (zod/react-hook-form), API integration, and user feedback for errors and success.
 - **Access:** Only visible and accessible to users with the admin role.
 
@@ -652,8 +652,8 @@ model User {
   - Admins can check/uncheck permissions and save changes.
   - The UI provides loading, error, and success feedback.
 - **API Endpoints:**
-  - `POST /api/roles/[roleId]/permissions` — Assign one or more permissions to a role. Expects `{ permissionIds: string[] }` in the body.
-  - `DELETE /api/roles/[roleId]/permissions` — Unassign one or more permissions from a role. Expects `{ permissionIds: string[] }` in the body.
+  - `POST /api/v1/roles/[roleId]/permissions` — Assign one or more permissions to a role. Expects `{ permissionIds: string[] }` in the body.
+  - `DELETE /api/v1/roles/[roleId]/permissions` — Unassign one or more permissions from a role. Expects `{ permissionIds: string[] }` in the body.
 - **Backend Logic:**
   - Endpoints are admin-only (RBAC enforced).
   - Uses Prisma to update the `RolePermission` table.

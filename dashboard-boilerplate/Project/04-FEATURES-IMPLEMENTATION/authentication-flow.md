@@ -52,7 +52,7 @@ npm install @next-auth/prisma-adapter # if using database
 
 ### 2. Create API Route
 ```typescript
-// src/app/api/auth/[...nextauth]/route.ts
+// src/app/api/v1/auth/[...nextauth]/route.ts
 import NextAuth from 'next-auth'
 import { authOptions } from '@/lib/auth'
 
@@ -145,7 +145,7 @@ export default function RecoveryPage() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     
-    const response = await fetch('/api/auth/recovery', {
+    const response = await fetch('/api/v1/auth/recovery', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ email })

@@ -131,7 +131,6 @@ App Layout
 - Multi-tenant support
 - API rate limiting
 - Advanced caching strategies
-```
 
 ```plaintext:dashboard-boilerplate/Project/02-TECHNICAL-SPECIFICATIONS/dependencies.md
 # Dependencies Management
@@ -409,7 +408,7 @@ export function ComponentName({ prop1, prop2 }: Props) {
 
 ## Authentication Endpoints
 
-### POST /api/auth/signin
+### POST /api/v1/auth/signin
 **Purpose**: User login
 **Request Body**:
 ```json
@@ -430,7 +429,7 @@ export function ComponentName({ prop1, prop2 }: Props) {
 }
 ```
 
-### POST /api/auth/signout
+### POST /api/v1/auth/signout
 **Purpose**: User logout
 **Response**:
 ```json
@@ -439,7 +438,7 @@ export function ComponentName({ prop1, prop2 }: Props) {
 }
 ```
 
-### POST /api/auth/recovery
+### POST /api/v1/auth/recovery
 **Purpose**: Initiate password recovery
 **Request Body**:
 ```json
@@ -455,7 +454,7 @@ export function ComponentName({ prop1, prop2 }: Props) {
 }
 ```
 
-### POST /api/auth/reset-password
+### POST /api/v1/auth/reset-password
 **Purpose**: Reset password with token
 **Request Body**:
 ```json
@@ -474,7 +473,7 @@ export function ComponentName({ prop1, prop2 }: Props) {
 
 ## User Endpoints
 
-### GET /api/user/profile
+### GET /api/v1/user/profile
 **Purpose**: Get current user profile
 **Headers**: Authorization: Bearer token
 **Response**:
@@ -491,7 +490,7 @@ export function ComponentName({ prop1, prop2 }: Props) {
 }
 ```
 
-### PUT /api/user/profile
+### PUT /api/v1/user/profile
 **Purpose**: Update user profile
 **Headers**: Authorization: Bearer token
 **Request Body**:
@@ -514,7 +513,7 @@ export function ComponentName({ prop1, prop2 }: Props) {
 }
 ```
 
-### PUT /api/user/password
+### PUT /api/v1/user/password
 **Purpose**: Change password
 **Headers**: Authorization: Bearer token
 **Request Body**:
@@ -534,7 +533,7 @@ export function ComponentName({ prop1, prop2 }: Props) {
 
 ## Dashboard Endpoints
 
-### GET /api/dashboard/stats
+### GET /api/v1/dashboard/stats
 **Purpose**: Get dashboard statistics
 **Headers**: Authorization: Bearer token
 **Response**:
@@ -707,7 +706,7 @@ npm install @next-auth/prisma-adapter # if using database
 
 ### 2. Create API Route
 ```typescript
-// src/app/api/auth/[...nextauth]/route.ts
+// src/app/api/v1/auth/[...nextauth]/route.ts
 import NextAuth from 'next-auth'
 import { authOptions } from '@/lib/auth'
 
@@ -800,7 +799,7 @@ export default function RecoveryPage() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     
-    const response = await fetch('/api/auth/recovery', {
+    const response = await fetch('/api/v1/auth/recovery', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ email })
@@ -1276,7 +1275,7 @@ export function ProfileForm() {
   const onSubmit = async (data: ProfileFormData) => {
     setIsLoading(true)
     try {
-      const response = await fetch('/api/user/profile', {
+      const response = await fetch('/api/v1/user/profile', {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(data)
