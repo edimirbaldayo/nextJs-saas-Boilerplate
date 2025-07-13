@@ -86,4 +86,6 @@ tmp/
 temp/ 
 
 #database
-Database/
+Database/postgres/
+Database/pgadmin/
+
