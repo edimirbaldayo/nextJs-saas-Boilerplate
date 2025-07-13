@@ -64,7 +64,7 @@ export default function UsersPage() {
     if (!showCreate) return;
     const fetchRoles = async () => {
       try {
-        const res = await fetch("/api/roles");
+        const res = await fetch("/api/v1/roles");
         const data = await res.json();
         setRoles(data.roles || []);
       } catch {
@@ -83,7 +83,7 @@ export default function UsersPage() {
     // Fetch users with async/await
     const fetchUsers = async () => {
       try {
-        const res = await fetch("/api/users");
+        const res = await fetch("/api/v1/users");
         const data = await res.json();
         if (data.error) setError(data.error);
         else setUsers(data.users);
@@ -110,7 +110,7 @@ export default function UsersPage() {
     setCreateError("");
     setCreateSuccess("");
     try {
-      const res = await fetch("/api/users", {
+      const res = await fetch("/api/v1/users", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(data),
@@ -124,7 +124,7 @@ export default function UsersPage() {
         resetCreate();
         // Optionally refetch users
         setLoading(true);
-        const res = await fetch("/api/users");
+        const res = await fetch("/api/v1/users");
         const data = await res.json();
         setUsers(data.users);
         setLoading(false);
@@ -145,7 +145,7 @@ export default function UsersPage() {
     if (roles.length === 0) {
       const fetchRoles = async () => {
         try {
-          const res = await fetch("/api/roles");
+          const res = await fetch("/api/v1/roles");
           const data = await res.json();
           setRoles(data.roles || []);
         } catch {
@@ -182,7 +182,7 @@ export default function UsersPage() {
     setEditError("");
     setEditSuccess("");
     try {
-      const res = await fetch("/api/users", {
+      const res = await fetch("/api/v1/users", {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -202,7 +202,7 @@ export default function UsersPage() {
         resetEdit();
         // Optionally refetch users
         setLoading(true);
-        const res = await fetch("/api/users");
+        const res = await fetch("/api/v1/users");
         const data = await res.json();
         setUsers(data.users);
         setLoading(false);
@@ -218,7 +218,7 @@ export default function UsersPage() {
     setDeleteLoading(true);
     setDeleteError("");
     try {
-      const res = await fetch("/api/users", {
+      const res = await fetch("/api/v1/users", {
         method: "DELETE",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ userId }),
@@ -230,7 +230,7 @@ export default function UsersPage() {
         setShowDelete(null);
         // Refetch users
         setLoading(true);
-        const res = await fetch("/api/users");
+        const res = await fetch("/api/v1/users");
         const data = await res.json();
         setUsers(data.users);
         setLoading(false);
@@ -247,7 +247,7 @@ export default function UsersPage() {
     setAssignError("");
     setAssignSuccess("");
     try {
-      const res = await fetch("/api/users", {
+      const res = await fetch("/api/v1/users", {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ userId, roleId: assignRoleId }),
@@ -261,7 +261,7 @@ export default function UsersPage() {
         setAssignRoleId("");
         // Refetch users
         setLoading(true);
-        const res = await fetch("/api/users");
+        const res = await fetch("/api/v1/users");
         const data = await res.json();
         setUsers(data.users);
         setLoading(false);
@@ -277,7 +277,7 @@ export default function UsersPage() {
     setToggleLoading(userId);
     setToggleError("");
     try {
-      const res = await fetch("/api/users", {
+      const res = await fetch("/api/v1/users", {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ userId, isActive: !isActive }),
@@ -288,7 +288,7 @@ export default function UsersPage() {
       } else {
         // Refetch users
         setLoading(true);
-        const res = await fetch("/api/users");
+        const res = await fetch("/api/v1/users");
         const data = await res.json();
         setUsers(data.users);
         setLoading(false);

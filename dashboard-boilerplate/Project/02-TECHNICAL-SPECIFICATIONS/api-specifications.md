@@ -2,7 +2,7 @@
 
 ## Authentication Endpoints
 
-### POST /api/auth/signin
+### POST /api/v1/auth/signin
 **Purpose**: User login
 **Request Body**:
 ```json
@@ -23,7 +23,7 @@
 }
 ```
 
-### POST /api/auth/signout
+### POST /api/v1/auth/signout
 **Purpose**: User logout
 **Response**:
 ```json
@@ -32,7 +32,7 @@
 }
 ```
 
-### POST /api/auth/recovery
+### POST /api/v1/auth/recovery
 **Purpose**: Initiate password recovery
 **Request Body**:
 ```json
@@ -48,7 +48,7 @@
 }
 ```
 
-### POST /api/auth/reset-password
+### POST /api/v1/auth/reset-password
 **Purpose**: Reset password with token
 **Request Body**:
 ```json
@@ -67,7 +67,7 @@
 
 ## User Endpoints
 
-### GET /api/user/profile
+### GET /api/v1/user/profile
 **Purpose**: Get current user profile
 **Headers**: Authorization: Bearer token
 **Response**:
@@ -84,7 +84,7 @@
 }
 ```
 
-### PUT /api/user/profile
+### PUT /api/v1/user/profile
 **Purpose**: Update user profile
 **Headers**: Authorization: Bearer token
 **Request Body**:
@@ -107,7 +107,7 @@
 }
 ```
 
-### PUT /api/user/password
+### PUT /api/v1/user/password
 **Purpose**: Change password
 **Headers**: Authorization: Bearer token
 **Request Body**:
@@ -127,7 +127,7 @@
 
 ## Dashboard Endpoints
 
-### GET /api/dashboard/stats
+### GET /api/v1/dashboard/stats
 **Purpose**: Get dashboard statistics
 **Headers**: Authorization: Bearer token
 **Response**:

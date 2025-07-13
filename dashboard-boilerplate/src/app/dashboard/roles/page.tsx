@@ -84,7 +84,7 @@ export default function RolesPage() {
     setFormError("");
     setFormSuccess("");
     try {
-      const res = await fetch("/api/roles", {
+      const res = await fetch("/api/v1/roles", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(data),
@@ -97,7 +97,7 @@ export default function RolesPage() {
         setShowCreate(false);
         resetCreate();
         setLoading(true);
-        const res = await fetch("/api/roles");
+        const res = await fetch("/api/v1/roles");
         const data = await res.json();
         setRoles(data.roles);
         setLoading(false);
@@ -114,7 +114,7 @@ export default function RolesPage() {
     setFormError("");
     setFormSuccess("");
     try {
-      const res = await fetch("/api/roles", {
+      const res = await fetch("/api/v1/roles", {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -130,7 +130,7 @@ export default function RolesPage() {
         setShowEdit(null);
         resetEdit();
         setLoading(true);
-        const res = await fetch("/api/roles");
+        const res = await fetch("/api/v1/roles");
         const data = await res.json();
         setRoles(data.roles);
         setLoading(false);
@@ -148,7 +148,7 @@ export default function RolesPage() {
     setDeleteLoading(true);
     setDeleteError("");
     try {
-      const res = await fetch("/api/roles", {
+      const res = await fetch("/api/v1/roles", {
         method: "DELETE",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ roleId }),
@@ -159,7 +159,7 @@ export default function RolesPage() {
       } else {
         setShowDelete(null);
         setLoading(true);
-        const res = await fetch("/api/roles");
+        const res = await fetch("/api/v1/roles");
         const data = await res.json();
         setRoles(data.roles);
         setLoading(false);
@@ -180,8 +180,8 @@ export default function RolesPage() {
     const fetchPerms = async () => {
       try {
         const [allRes, roleRes] = await Promise.all([
-          fetch("/api/permissions"),
-          fetch(`/api/roles?roleId=${showPermissions}`),
+          fetch("/api/v1/permissions"),
+          fetch(`/api/v1/roles?roleId=${showPermissions}`),
         ]);
         const allData = await allRes.json();
         const roleData = await roleRes.json();
@@ -208,20 +208,20 @@ export default function RolesPage() {
     setPermSuccess("");
     try {
       // Fetch current permissions for the role
-      const roleRes = await fetch(`/api/roles?roleId=${showPermissions}`);
+      const roleRes = await fetch(`/api/v1/roles?roleId=${showPermissions}`);
       const roleData = await roleRes.json();
       const currentPerms: string[] = roleData.role?.permissions?.map((p: Permission) => p.id) || [];
       const toAssign = rolePermissions.filter((id) => !currentPerms.includes(id));
       const toUnassign = currentPerms.filter((id) => !rolePermissions.includes(id));
       if (toAssign.length > 0) {
-        await fetch(`/api/roles/${showPermissions}/permissions`, {
+        await fetch(`/api/v1/roles/${showPermissions}/permissions`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ permissionIds: toAssign }),
         });
       }
       if (toUnassign.length > 0) {
-        await fetch(`/api/roles/${showPermissions}/permissions`, {
+        await fetch(`/api/v1/roles/${showPermissions}/permissions`, {
           method: "DELETE",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ permissionIds: toUnassign }),
@@ -230,7 +230,7 @@ export default function RolesPage() {
       setPermSuccess("Permissions updated successfully");
       setShowPermissions(null);
       setLoading(true);
-      const res = await fetch("/api/roles");
+      const res = await fetch("/api/v1/roles");
       const data = await res.json();
       setRoles(data.roles);
       setLoading(false);
@@ -250,7 +250,7 @@ export default function RolesPage() {
     // Fetch roles
     const fetchRoles = async () => {
       try {
-        const res = await fetch("/api/roles");
+        const res = await fetch("/api/v1/roles");
         const data = await res.json();
         if (data.error) setError(data.error);
         else setRoles(data.roles);

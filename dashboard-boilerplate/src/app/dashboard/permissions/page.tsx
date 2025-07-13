@@ -74,7 +74,7 @@ export default function PermissionsPage() {
     setFormError("");
     setFormSuccess("");
     try {
-      const res = await fetch("/api/permissions", {
+      const res = await fetch("/api/v1/permissions", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(data),
@@ -87,7 +87,7 @@ export default function PermissionsPage() {
         setShowCreate(false);
         resetCreate();
         setLoading(true);
-        const res = await fetch("/api/permissions");
+        const res = await fetch("/api/v1/permissions");
         const data = await res.json();
         setPermissions(data.permissions);
         setLoading(false);
@@ -104,7 +104,7 @@ export default function PermissionsPage() {
     setFormError("");
     setFormSuccess("");
     try {
-      const res = await fetch("/api/permissions", {
+      const res = await fetch("/api/v1/permissions", {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -120,7 +120,7 @@ export default function PermissionsPage() {
         setShowEdit(null);
         resetEdit();
         setLoading(true);
-        const res = await fetch("/api/permissions");
+        const res = await fetch("/api/v1/permissions");
         const data = await res.json();
         setPermissions(data.permissions);
         setLoading(false);
@@ -138,7 +138,7 @@ export default function PermissionsPage() {
     setDeleteLoading(true);
     setDeleteError("");
     try {
-      const res = await fetch("/api/permissions", {
+      const res = await fetch("/api/v1/permissions", {
         method: "DELETE",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ permissionId }),
@@ -149,7 +149,7 @@ export default function PermissionsPage() {
       } else {
         setShowDelete(null);
         setLoading(true);
-        const res = await fetch("/api/permissions");
+        const res = await fetch("/api/v1/permissions");
         const data = await res.json();
         setPermissions(data.permissions);
         setLoading(false);
@@ -170,7 +170,7 @@ export default function PermissionsPage() {
     // Fetch permissions
     const fetchPermissions = async () => {
       try {
-        const res = await fetch("/api/permissions");
+        const res = await fetch("/api/v1/permissions");
         const data = await res.json();
         if (data.error) setError(data.error);
         else setPermissions(data.permissions);

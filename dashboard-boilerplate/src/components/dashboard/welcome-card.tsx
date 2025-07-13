@@ -21,9 +21,9 @@ export function WelcomeCard() {
       try {
         // Fetch dashboard stats if user is admin
         const [usersRes, rolesRes, permissionsRes] = await Promise.all([
-          fetch('/api/users?count=true'),
-          fetch('/api/roles?count=true'),
-          fetch('/api/permissions?count=true'),
+          fetch('/api/v1/users?count=true'),
+          fetch('/api/v1/roles?count=true'),
+          fetch('/api/v1/permissions?count=true'),
         ])
 
         const userCount = usersRes.ok ? await usersRes.json() : { count: 0 }
