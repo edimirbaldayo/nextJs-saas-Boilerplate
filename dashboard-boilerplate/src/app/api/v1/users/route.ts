@@ -35,7 +35,7 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 403 });
   }
   const body = await req.json();
-  const { email, name, password, roleId, profile } = body;
+  const { email, name, password, roleId, profile, isActive } = body;
   if (!email || !password || !roleId) {
     return NextResponse.json({ error: 'Missing required fields' }, { status: 400 });
   }
@@ -46,6 +46,7 @@ export async function POST(req: NextRequest) {
       name,
       password: hashedPassword,
       emailVerified: new Date(),
+      isActive: isActive !== undefined ? isActive : true, // Default to true if not provided
       userRoles: { create: { roleId } },
     };
     if (profile) {
@@ -67,7 +68,7 @@ export async function PUT(req: NextRequest) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 403 });
   }
   const body = await req.json();
-  const { userId, email, name, password, roleId, profile } = body;
+  const { userId, email, name, password, roleId, profile, isActive } = body;
   if (!userId) {
     return NextResponse.json({ error: 'Missing userId' }, { status: 400 });
   }
@@ -76,6 +77,7 @@ export async function PUT(req: NextRequest) {
     if (email) data.email = email;
     if (name) data.name = name;
     if (password) data.password = await bcrypt.hash(password, 12);
+    if (typeof isActive === 'boolean') data.isActive = isActive;
     if (profile) {
       data.userProfile = { upsert: { update: profile, create: profile } };
     }
@@ -91,7 +93,12 @@ export async function PUT(req: NextRequest) {
         create: { userId, roleId },
       });
     }
-    return NextResponse.json({ user });
+    // Return updated user with roles and profile
+    const updatedUser = await prisma.user.findUnique({
+      where: { id: userId },
+      include: { userRoles: { include: { role: true } }, userProfile: true },
+    });
+    return NextResponse.json({ user: updatedUser });
   } catch (e) {
     return NextResponse.json({ error: 'User update failed', details: e instanceof Error ? e.message : String(e) }, { status: 500 });
   }
