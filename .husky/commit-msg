@@ -1,0 +1,31 @@
+#!/usr/bin/env sh
+. "$(dirname -- "$0")/_/husky.sh"
+
+# Get the commit message
+COMMIT_MSG=$(cat "$1")
+
+# Conventional commit pattern
+CONVENTIONAL_PATTERN="^(feat|fix|docs|style|refactor|test|chore|perf|ci|build|revert)(\(.+\))?: .+"
+
+# Check if commit message follows conventional format
+if ! echo "$COMMIT_MSG" | grep -qE "$CONVENTIONAL_PATTERN"; then
+  echo "❌ Commit message doesn't follow conventional commit format."
+  echo ""
+  echo "📝 Expected format:"
+  echo "   <type>(<scope>): <description>"
+  echo ""
+  echo "🎯 Types: feat, fix, docs, style, refactor, test, chore, perf, ci, build, revert"
+  echo ""
+  echo "📋 Examples:"
+  echo "   feat: add user authentication"
+  echo "   fix(auth): resolve login issue"
+  echo "   docs: update README"
+  echo "   style: format code with prettier"
+  echo ""
+  echo "💡 You can amend your commit with:"
+  echo "   git commit --amend"
+  echo ""
+  exit 1
+fi
+
+echo "✅ Commit message follows conventional format!" 
