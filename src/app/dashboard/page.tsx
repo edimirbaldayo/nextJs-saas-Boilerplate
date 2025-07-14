@@ -2,6 +2,7 @@ import { WelcomeCard } from '@/components/dashboard/welcome-card'
 import { QuickActions } from '@/components/dashboard/quick-actions'
 import { StatsOverview } from '@/components/dashboard/stats-overview'
 import { RecentActivity } from '@/components/dashboard/recent-activity'
+import { UserInfo } from '@/components/auth/user-info'
 
 export default function DashboardPage() {
   return (
@@ -13,7 +14,8 @@ export default function DashboardPage() {
           <StatsOverview />
           <RecentActivity />
         </div>
-        <div>
+        <div className="space-y-6">
+          <UserInfo />
           <QuickActions />
         </div>
       </div>
